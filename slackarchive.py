@@ -63,7 +63,7 @@ ch_hist_url = "https://slack.com/api/channels.history"
 
 def getRequest(geturl, getparams):
     """Request get handling; returns a dict.
-    Checks Slack-specific return verbage for whether
+    Checks Slack-specific return verbiage for whether
     retrieval was successful and raises an error if not."""
     req = requests.get(geturl, params=getparams)
     # TODO: Add more fault detection and more elegantly turn the JSON into dict
@@ -97,6 +97,8 @@ def getChannels(token):
     channel_list = {}
     # Retrieve list of channels
     list_payload = {"token": token, "exclude_archived": True}
+
+    # TODO: Add error handling for when requests go wrong
     lr_dict = getRequest(list_url, list_payload)
 
     # Peel off list of channels
@@ -116,6 +118,7 @@ def getChannelHistory(chanid, token, latest = 0):
     get_more = True
 
     while get_more:
+        # TODO: Add error handling for when requests go wrong
         hist_dict = getRequest(ch_hist_url, ch_payload)
         chan_history.extend(hist_dict["messages"])
         get_more = hist_dict["has_more"]
@@ -175,6 +178,8 @@ def recordHistory(dest, token):
 
 
 if __name__ == '__main__':
+    # TODO: Add command-line arguments for default args above
+
     # Look for token in a file in the destination folder
     rootpath = os.path.abspath(os.path.expanduser(DEFAULT_PATH))
     destpath = os.path.join(rootpath, DEFAULT_SAVE_FOLDER)
