@@ -60,6 +60,12 @@ ch_hist_url = "https://slack.com/api/channels.history"
 # latest = 10 (timestamp to not re-archive messages)
 # count = 100
 
+# User names/IDs:
+user_info_url = "https://slack.com/api/users.list"
+# Parameters:
+# token
+# presence = 1 (whether to include presence data)
+
 
 def getRequest(geturl, getparams):
     """Request get handling; returns a dict.
@@ -128,11 +134,42 @@ def getChannelHistory(chanid, token, latest = 0):
     return chan_history
 
 
+def getUserDict(token):
+    """Retrieves the list of users and parses it into ID/Name combinations.
+    Format is {userid: [username, textname]}
+    """
+
+    users = {}
+
+    payload = {"token": token}
+    rawusers = getRequest(user_info_url, payload)['members']
+
+    for user in rawusers:
+        # Parse users and strip out most of the data
+        # if no name set, reuse username
+        realname = user['profile']['real_name']
+        if len(realname) == 0:
+            realname = user['name']
+
+        users[user['id']] = {'name': user['name'],
+                             'real_name': realname,
+                            }
+
+    return users
+
+
 def recordHistory(dest, token):
     """Records channel history as a JSON text object in the specified destination folder"""
     # Make sure destination folders exist - parse dest folder
     curtime = datetime.now().strftime(DATE_FORMAT)
     print "Run starting: %s" % curtime
+
+    # Get the list of users & save it (overwrite previous)
+    users = getUserDict(token)
+    outputfile = os.path.join(dest, "users.txt")
+    print "Retrieved %d users; saving to %s" % (len(users), outputfile)
+    with open(outputfile, 'w') as f:
+        f.write(pformat(users))
 
     # Get the list of channels
     channels = getChannels(token=token)
@@ -165,6 +202,34 @@ def recordHistory(dest, token):
     print "History retrieval complete!"
 
 
+def loadPaths(path=DEFAULT_PATH, savepath=DEFAULT_SAVE_FOLDER):
+    """Loads the root path and destination paths and performs path checking"""
+    # Look for token in a file in the destination folder
+    rootpath = os.path.abspath(os.path.expanduser(DEFAULT_PATH))
+    destpath = os.path.join(rootpath, DEFAULT_SAVE_FOLDER)
+
+    try:
+        os.makedirs(destpath)
+    except:
+        pass
+
+    return rootpath, destpath
+
+def loadToken(rootpath):
+    """Loads the user slack token in the expected path.
+    Generate Slack API token at: https://api.slack.com/web"""
+    tokenpath = os.path.join(rootpath, TOKEN_FILENAME)
+    if not os.path.exists(tokenpath):
+        print "Expected to find token file at: %s" % tokenpath
+        print "Generate Slack API token at: https://api.slack.com/web"
+        return None
+    else:
+        with open(tokenpath, 'r') as f:
+            user_token = f.read()
+
+    return user_token
+
+
 # General program flow
 # 0. Load permanent storage for list of channels and their 'latest' read
 # 1. Check if "ok" == True (if not, use "error" property)
@@ -179,26 +244,12 @@ def recordHistory(dest, token):
 
 if __name__ == '__main__':
     # TODO: Add command-line arguments for default args above
-
-    # Look for token in a file in the destination folder
-    rootpath = os.path.abspath(os.path.expanduser(DEFAULT_PATH))
-    destpath = os.path.join(rootpath, DEFAULT_SAVE_FOLDER)
-
-    try:
-        os.makedirs(destpath)
-    except:
-        pass
+    rootpath, destpath = loadPaths()
     print "Output directory set: %s" % destpath
 
     print "Loading token"
-    tokenpath = os.path.join(rootpath, TOKEN_FILENAME)
-    if not os.path.exists(tokenpath):
-        print "Expected to find token file at: %s" % tokenpath
-        print "Generate Slack API token at: https://api.slack.com/web"
+    user_token = loadToken(rootpath)
 
-    else:
-        with open(tokenpath, 'r') as f:
-            user_token = f.read()
-
+    if user_token is not None:
         print "Making history..."
         recordHistory(destpath, token=user_token)
