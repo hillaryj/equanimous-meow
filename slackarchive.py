@@ -47,8 +47,8 @@ null = None
 
 # User related globals
 USERS_FILENAME = "users.txt"
-USE_USERNAME = 0
-USE_REALNAME = 1
+USE_USERNAME = "name"
+USE_REALNAME = "real_name"
 
 # History Stitching
 OVERALL_HISTORY_FILENAME = "history.txt"
@@ -166,6 +166,17 @@ def getUserDict(token):
     return users
 
 
+def lookupUserID(uid, users, nametype=USE_USERNAME):
+    """Retrieves the user name for the specific user ID"""
+    if uid not in users:
+        print "User ID not found: '%s'" % uid
+        return uid
+
+    # print "User lookup: %s -> %s" % (uid, users[uid])
+
+    return users[uid][nametype]
+
+
 def recordUsers(dest, token):
     """Records list of current users to file"""
     # Get the list of users & save it (overwrite previous)
@@ -177,6 +188,20 @@ def recordUsers(dest, token):
     # Ta da!
     print "User list retrieval complete!"
 
+
+def loadUsersFromFile(dest):
+    """Loads the list of current users from file"""
+    userfile = os.path.join(dest, "users.txt")
+
+    if not os.path.exists(userfile):
+        raise IOError("User file does not exist: '%s'" % userfile)
+
+    with open(userfile, 'r') as f:
+        users = f.read()
+
+    users = eval(users)
+
+    return users
 
 def recordHistory(dest, token):
     """Records channel history as a JSON text object in the specified destination folder"""
@@ -273,6 +298,27 @@ def loadHistoryFile(filename):
 
     # Turn saved python object string back into a list
     hist = eval(strhist)
+    return hist
+
+
+def formatHistoryList(hist, users):
+    """Parses a history list (of dicts) and adds user names
+    from user IDs and turns timestamps into floats.
+
+    Modifies in place; returns the list."""
+    # Parse through history to perform formatting/updates
+    for entry in hist:
+        # Turn timestamps into floats
+        entry['ts'] = float(entry['ts'])
+        # If entry has the key 'user', look up and add the name
+        if entry.has_key('user'):
+            entry['name'] = lookupUserID(entry['user'], users)
+        # Parse through reactions and add user names
+        if entry.has_key('reactions'):
+            for reaction in entry['reactions']:
+                reaction['names'] = []
+                for user in reaction['users']:
+                    reaction['names'].append(lookupUserID(user, users))
 
     return hist
 
@@ -281,11 +327,21 @@ def getHistoryTimeSpan(historylist):
     """History will be in order (oldest to/from newest).
     This method finds the first and last timestamps.
     Returns tstart, tend"""
-    t0 = historylist[0]['ts']
-    tn = historylist[-1]['ts']
+    t0 = float(historylist[0]['ts'])
+    tn = float(historylist[-1]['ts'])
 
     return min(t0, tn), max(t0, tn)
 
+
+def getHistoryTimes(historylist):
+    """Returns a list of all time stamps contained in the
+    history list.
+    """
+    times = [entry['ts'] for entry in historylist]
+    # Should be sorted already but make sure
+    times.sort()
+
+    return times
 
 def saveFile(filename, content, writemode='w'):
     """Saves specified contents to filename.
@@ -295,11 +351,11 @@ def saveFile(filename, content, writemode='w'):
     return True
 
 
-def parseChannelHistoryFiles(chdir, save_overall_history = True,
-                             force_refresh = False):
+def parseChannelHistoryFiles(chdir, users,
+                             save_overall_history = True,
+                             force_refresh = True):
     """"""
-    history = []
-    start, end = 0, 0
+    histdict = {}
 
     # Get a list of files in the channel directory
     if not os.path.isdir(chdir):
@@ -313,10 +369,13 @@ def parseChannelHistoryFiles(chdir, save_overall_history = True,
     if OVERALL_HISTORY_FILENAME in filelist and not force_refresh:
         # Load the previously-made concatenated file first
         hfn = os.path.join(chdir, OVERALL_HISTORY_FILENAME)
-        history = loadHistoryFile(hfn)
-        start, end = getHistoryTimeSpan(history)
+        history = formatHistoryList(loadHistoryFile(hfn), users)
+        # start, end = getHistoryTimeSpan(history)
+        htimes = getHistoryTimes(history)
 
-    # For each history file... TODO STUB
+        histdict.update(dict(htimes, history))
+
+    # Parse each history file
     for hfile in filelist:
         # We've already dealt with the concatenated file, so ignore
         if hfile == OVERALL_HISTORY_FILENAME:
@@ -326,19 +385,47 @@ def parseChannelHistoryFiles(chdir, save_overall_history = True,
         hfn = os.path.join(chdir, hfile)
         htmp = loadHistoryFile(hfn)
 
+        # Wait to perform the formatting to save processing
+        # on files that completely overlap with existing history
         t0, tn = getHistoryTimeSpan(htmp)
+        if t0 in histdict and tn in histdict:
+            continue
 
-    # Save the concatenated file if it won't be empty
-    if save_overall_history and len(history) > 0:
+        # Add new history to the overall history
+        htmp = formatHistoryList(htmp, users)
+        ttmp = getHistoryTimes(htmp)
+
+        tmpdict = dict(zip(ttmp, htmp))
+
+        histdict.update(tmpdict)
+
+    # Turn history dict back into a list
+    overall_history = [histdict[key]
+                       for key in sorted(histdict.iterkeys())]
+
+    # Save the concatenated file if not empty
+    if save_overall_history and len(histdict) > 0:
         saveFile(os.path.join(chdir, OVERALL_HISTORY_FILENAME),
-                 pformat(history))
+                 pformat(overall_history))
 
-    return history
+    return overall_history
 
-def stitchHistory(history, addinfo):
+
+def stitchHistory(dest):
     """"""
+    # Get the list of channel folders
+    destlist = [os.path.join(dest,entry)
+                for entry in os.listdir(dest)
+                if os.path.isdir(os.path.join(dest,entry))]
+    print "Retrieved %d channels" % len(destlist)
 
-    return
+    users = loadUsersFromFile(dest)
+
+    for chdir in destlist:
+        chhist = parseChannelHistoryFiles(chdir, users, save_overall_history = True, force_refresh = True)
+
+    # Ta da!
+    print "History stitching complete!"
 
 
 ###########################################################
@@ -369,3 +456,5 @@ if __name__ == '__main__':
         recordHistory(destpath, token=user_token)
         print "Recording user list..."
         recordUsers(destpath, token=user_token)
+        print "Stitching history..."
+        stitchHistory(destpath)
