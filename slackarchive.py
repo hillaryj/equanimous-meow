@@ -45,6 +45,11 @@ true = True
 false = False
 null = None
 
+# User related globals
+USERS_FILENAME = "users.txt"
+USE_USERNAME = 0
+USE_REALNAME = 1
+
 ## Slack URLs
 # Channel List:
 list_url = "https://slack.com/api/channels.list"
@@ -158,18 +163,23 @@ def getUserDict(token):
     return users
 
 
+def recordUsers(dest, token):
+    """Records list of current users to file"""
+    # Get the list of users & save it (overwrite previous)
+    users = getUserDict(token)
+    outputfile = os.path.join(dest, "users.txt")
+    print "Retrieved %d users; saving to %s" % (len(users), outputfile)
+    saveFile(outputfile, pformat(users))
+
+    # Ta da!
+    print "User list retrieval complete!"
+
+
 def recordHistory(dest, token):
     """Records channel history as a JSON text object in the specified destination folder"""
     # Make sure destination folders exist - parse dest folder
     curtime = datetime.now().strftime(DATE_FORMAT)
     print "Run starting: %s" % curtime
-
-    # Get the list of users & save it (overwrite previous)
-    users = getUserDict(token)
-    outputfile = os.path.join(dest, "users.txt")
-    print "Retrieved %d users; saving to %s" % (len(users), outputfile)
-    with open(outputfile, 'w') as f:
-        f.write(pformat(users))
 
     # Get the list of channels
     channels = getChannels(token=token)
@@ -195,8 +205,7 @@ def recordHistory(dest, token):
         outputfile = os.path.join(chdir, "%s_%s.txt"%(curtime, chname))
         print "Saving %d messages in history to: %s" % (len(hist), outputfile)
 
-        with open(outputfile, 'w') as f:
-            f.write(prepForFileOutput(hist))
+        saveFile(outputfile, prepForFileOutput(hist))
 
     # Ta da!
     print "History retrieval complete!"
@@ -211,6 +220,10 @@ def loadPaths(path=DEFAULT_PATH, savepath=DEFAULT_SAVE_FOLDER):
     try:
         os.makedirs(destpath)
     except:
+        # Exception occurs when attempting to makedirs that exist
+        # Ignore this exception
+        # TODO: Parse for specific exception type so we don't ignore
+        # unexpected exceptions
         pass
 
     return rootpath, destpath
@@ -230,7 +243,63 @@ def loadToken(rootpath):
     return user_token
 
 
+###########################################################
+# Pretty Parsing
+###########################################################
+# Given:
+# - A folder full of Slack history files (with time overlap)
+# - A dictionary of user IDs & names
+# Do:
+# 1. Load the history file
+# 2. Find the latest time stamp
+# 3. Stitch history together
+#    - Add attribute to dict of 'username' as looked up from 'user'
+# 4. Output formatting:
+#    - Format like Slack interface, replace with names
+#      (Input flag for real name vs user name)
+###########################################################
+
+def loadHistoryFile(filename):
+    """"""
+    if not os.path.exists(filename):
+        return []
+
+    # Load history file
+    with open(filename, 'r') as f:
+        strhist = f.read()
+
+    # Turn saved python object string back into a list
+    hist = eval(strhist)
+
+    return hist
+
+
+def getHistoryTimeSpan(historylist):
+    """History will be in order (oldest to/from newest).
+    This method finds the first and last timestamps.
+    Returns tstart, tend"""
+    t0 = historylist[0]['ts']
+    tn = historylist[-1]['ts']
+
+    return min(t0, tn), max(t0, tn)
+
+
+def saveFile(filename, content, writemode='w'):
+    """Saves specified contents to filename.
+    Optional parameter writemode (default 'w')"""
+    with open(filename, writemode) as f:
+        f.write(content)
+    return True
+
+
+def stitchHistory(history, addinfo):
+    """"""
+    return
+
+
+###########################################################
 # General program flow
+###########################################################
 # 0. Load permanent storage for list of channels and their 'latest' read
 # 1. Check if "ok" == True (if not, use "error" property)
 # 2. Use channels[kk]["id"] item to generate list of channels
@@ -240,10 +309,11 @@ def loadToken(rootpath):
 #       replies["messages][-1]["ts"] entry)
 # 3.2. Save history in file area (Dropbox or Copy)
 # 3.3. Update permanent storage with new value for 'latest'
+###########################################################
 
 
 if __name__ == '__main__':
-    # TODO: Add command-line arguments for default args above
+    # TODO: Add command-line arguments to load args instead of defaults above
     rootpath, destpath = loadPaths()
     print "Output directory set: %s" % destpath
 
@@ -253,3 +323,5 @@ if __name__ == '__main__':
     if user_token is not None:
         print "Making history..."
         recordHistory(destpath, token=user_token)
+        print "Recording user list..."
+        recordUsers(destpath, token=user_token)
