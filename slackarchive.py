@@ -50,6 +50,9 @@ USERS_FILENAME = "users.txt"
 USE_USERNAME = 0
 USE_REALNAME = 1
 
+# History Stitching
+OVERALL_HISTORY_FILENAME = "history.txt"
+
 ## Slack URLs
 # Channel List:
 list_url = "https://slack.com/api/channels.list"
@@ -292,8 +295,49 @@ def saveFile(filename, content, writemode='w'):
     return True
 
 
+def parseChannelHistoryFiles(chdir, save_overall_history = True,
+                             force_refresh = False):
+    """"""
+    history = []
+    start, end = 0, 0
+
+    # Get a list of files in the channel directory
+    if not os.path.isdir(chdir):
+        print "Error: '%s' is not a directory" % chdir
+        return history
+
+    filelist = os.listdir(chdir)
+
+    # If we've made a concatenated file before, load it
+    # Unless force_refresh is enabled
+    if OVERALL_HISTORY_FILENAME in filelist and not force_refresh:
+        # Load the previously-made concatenated file first
+        hfn = os.path.join(chdir, OVERALL_HISTORY_FILENAME)
+        history = loadHistoryFile(hfn)
+        start, end = getHistoryTimeSpan(history)
+
+    # For each history file... TODO STUB
+    for hfile in filelist:
+        # We've already dealt with the concatenated file, so ignore
+        if hfile == OVERALL_HISTORY_FILENAME:
+            continue
+
+        # Do the rest of the parsing
+        hfn = os.path.join(chdir, hfile)
+        htmp = loadHistoryFile(hfn)
+
+        t0, tn = getHistoryTimeSpan(htmp)
+
+    # Save the concatenated file if it won't be empty
+    if save_overall_history and len(history) > 0:
+        saveFile(os.path.join(chdir, OVERALL_HISTORY_FILENAME),
+                 pformat(history))
+
+    return history
+
 def stitchHistory(history, addinfo):
     """"""
+
     return
 
 
