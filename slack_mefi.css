@@ -7,6 +7,10 @@ Requires the Stylish extension.
 Created by Hillary Jeffrey, September 2015
 */
 
+/****************************************/
+/* Colors!!!                            */
+/****************************************/
+/* Add colors here so it's easier to change them en masse */
 
 /****************************************/
 /* Main Message Area                    */
@@ -30,6 +34,10 @@ a:hover, a:active, a:focus {
 .inline_attachment span.attachment_author_name {
     color: #9CC754;
 }
+/* Group name and purpose links */
+h1 a, h1 a:active, h1 a:hover, h1 a:link, h1 a:visited {
+    color: #9CC754 !important;
+}
 
 /* Header Area with channel title etc*/
 #header {
@@ -44,12 +52,6 @@ a:hover, a:active, a:focus {
     color: #9cc754;
 }
 
-/* Member counter in header area */
-#channel_members_toggle {
-    background: #03436d;
-    color: #fff;
-}
-
 /*Message body text*/
 .light_theme .message{
     color: #ccc;
@@ -61,6 +63,17 @@ a:hover, a:active, a:focus {
 .light_theme .message_sender {
     color: #9CC754 !important;
     font-weight: bold;
+}
+/* Channel notifications */
+.light_theme .message.archived .message_content, .light_theme .message.bot_change .message_content, .light_theme .message.joined .message_content, .light_theme .message.left .message_content, .light_theme .message.purpose .message_content, .light_theme .message.rename .message_content, .light_theme .message.sh_created .message_content .sh_auto_msg_text, .light_theme .message.sh_shared .message_content .sh_auto_msg_text, .light_theme .message.topic .message_content, .light_theme .message.unarchived .message_content {
+    color: #c8e0a1;
+}
+
+/* Code */
+code {
+    color: #619D6B;
+    background-color: #D5E2EB;
+    border: 1px solid #8FB1C9;
 }
 
 /* Member pictures - was doing some funky resizing/wiggling when hovered over so I just set opacity at 100% all the time and it fixed it */
@@ -95,7 +108,13 @@ body:not(.feature_new_message_markup) .msgs_holder .unread_divider {
     color: #e3efcf !important;
 }
 body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr {
-    border-top: 1px solid #e3efcf;
+    border-top: 1px solid #e3efcf !important;
+}
+body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr {
+    border-top: 1px solid #e3efcf !important;
+}
+body:not(.feature_new_message_markup) .msgs_holder .unread_divider hr {
+    border-top: 1px solid #e3efcf !important;
 }
 /****************************************/
 /* Footer Area                          */
@@ -117,7 +136,7 @@ body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr
     border-color: #1185b1;
 }
 #message_edit_form.focus #primary_file_button:not(:hover), #messages-input-container.focus #primary_file_button:not(:hover), .inline_message_input_container.focus #primary_file_button:not(:hover) {
-    border-color: #1185b1;
+    border-color: #03436d;
 }
 
 /* Text Entry - normal and focus */
@@ -129,6 +148,11 @@ body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr
 }
 #message_edit_form #message-input:focus, #messages-input-container #message-input:focus, .inline_message_input_container #message-input:focus {
     border-color: #1185b1;
+}
+
+/* People are typing text*/
+#typing_text {
+    color: #9CC754;
 }
 
 /****************************************/
@@ -166,6 +190,56 @@ body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr
     font-weight: bold;
 }
 
+/* Channel name hover */
+#client-ui .monkey_scroll_bar, .channels_list_holder ul li a:hover, #monkey_scroll_wrapper_for_channels_scroller .monkey_scroll_bar {
+    background: #03436D !important;
+}
+
+/****************************************/
+/* Header Elements                      */
+/****************************************/
+
+/* Channel members icon */
+#channel_members_toggle .channel_members_toggle_icon, #channel_members_toggle {
+    background: #03436d;
+    color: #9CC754;
+}
+
+.flexpane_toggle_button {
+    color: #9CC754;
+    /*color: #FFFFFF;*/
+}
+
+/* Search area */
+.search_form .search_input {
+    background: #AED6E5;
+    border: 1px solid #1185B1;
+}
+.highlighter_underlay .ghost_text {
+    color: #FFFFFF;
+}
+#header_search_form.search_form .icon_search {
+    opacity: .5;
+    top: 6px;
+    left: 7px;
+    color: #98C455;
+}
+input#search_terms.search_input {
+    color: #fff;
+}
+/*#client-ui a.icon_close {
+    color: #babbbf;
+}*/
+#client-ui #header_search_form.search_form .icon_close {
+    opacity: .7;
+}
+
+/* Unread messages */
+#messages_unread_status.quiet {
+    background: #1185B1;
+    color: #FFFFFF;
+}
+
 /****************************************/
 /* Common Elements                      */
 /****************************************/
@@ -184,35 +258,37 @@ body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr
 
 /* In-line emoji reactions */
 .emoji_rxn {
-    background: #045286;
+    background-color: #1185B1;
     border: 1px solid #88C2D8;
 }
 .emoji_rxn.active, .emoji_rxn:hover {
-  border-color: #C8E0A1; }
-  .emoji_rxn.active .emoji_rxn_count, .emoji_rxn:hover .emoji_rxn_count {
-    color: #e6e6e6;
+    border-color: #C8E0A1;
 }
-.emoji_rxn.user_reacted {
-  background-color: #1185B1;
-  border-color: #88C2D8 !important; }
-  .emoji_rxn.user_reacted .emoji_rxn_count {
-    color: #fff;
+.emoji_rxn.active .emoji_rxn_count, .emoji_rxn:hover .emoji_rxn_count {
+    color: #e6e6e6;
 }
 .emoji_rxn .emoji_rxn_count {
   color: #e6e6e6;
 }
+/* Current user reacted reactions */
+.emoji_rxn.user_reacted {
+    background: #AED6E5;
+    border-color: #88C2D8 !important;
+}
+.emoji_rxn.user_reacted .emoji_rxn_count {
+    color: #0F7EAC;
+}
+/* Smiley face icon */
 .emoji_rxn.menu_rxn .ts_icon {
-  color: rgba(230, 230, 230, 0.25);
+    color: rgba(230, 230, 230, 0.5);
 }
 
 /* Stars */
 #active_channel_name .star.starred {
-    visibility: visible;
     color: #fc0;
     opacity: 1;
 }
 #active_channel_name:hover .star.starred {
-    visibility: visible;
     color: #FFF1BA;
     opacity: 1;
 }
@@ -230,4 +306,92 @@ body:not(.feature_new_message_markup) .message.highlight {
 /* Override the link colors due to lighter background color */
 a#cancel_edit, a#commit_edit {
     color: #03436d;
+}
+
+/* Mentions */
+body:not(.feature_new_message_markup) .message .mention {
+    background: #4D8D70;
+    color: #fff;
+}
+
+/****************************************/
+/* Loading Page                         */
+/****************************************/
+
+/*#loading-zone {
+    ;
+}*/
+#col_channels_bg {
+    background: #045286;
+}
+.loading #loading_team_menu_bg,
+.loading #loading_user_menu_bg {
+    display: block;
+}
+#loading_team_menu_bg,
+#loading_user_menu_bg {
+    background: #045286;
+}
+/*#loading_team_menu_bg {
+    height: 53px;
+    border-bottom: 2px solid #372c36;
+    top: 0;
+}*/
+/*#loading_user_menu_bg {
+    height: 4rem;
+    border-top: 2px solid #372c36;
+    bottom: 0;
+}*/
+.loading #loading-zone {
+    background: #065A8F;
+}
+#loading_indicator {
+    color: #9CC754;
+    text-shadow: 0 1px #045286;
+}
+#loading_welcome_msg {
+    color: #AED6E5;
+    opacity: 1;
+    text-shadow: 0 1px #045286;
+}
+#loading_welcome_author {
+    color: #15BFFF;
+    opacity: 0;
+    text-shadow: 0 1px #045286;
+}
+
+/* Over storage limit box */
+#over_storage_limit_div, #over_integrations_limit_div {
+    background-color: #aed6e5;
+    color: #777;
+    border: 2px solid #1185B1;
+}
+
+#over_messages_limit_div {
+    background-color: transparent;
+    color: #fff;
+}
+
+#over_storage_limit_div a, #over_integrations_limit_div a {
+    background-color: #f4e8d6;
+    color: #fff;
+}
+
+/* Attempting to find where it flashes the dialog to a red color */
+.mini.been_seen {
+    color: #ddd;
+}
+.mini {
+    color: #ddd;
+}
+
+
+/* Group purpose etc */
+/* Purpose/info text color */
+#msgs_scroller_div #end_display_div p {
+    color: #15BFFF;
+}
+/* Group creator name */
+.member_preview_link, .group_link {
+    color: #9CC754 !important;
 }
