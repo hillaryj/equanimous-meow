@@ -1,0 +1,233 @@
+/*
+This CSS file reskins a Slack instance with colors from
+MetaFilter (www.metafilter.com).
+
+Requires the Stylish extension.
+
+Created by Hillary Jeffrey, September 2015
+*/
+
+
+/****************************************/
+/* Main Message Area                    */
+/****************************************/
+/* Body text */
+body {
+    background: #065A8F;
+    color: #fff;
+}
+
+/* Sitewide link colors */
+a {
+    color: #9CC754;
+}
+a:link, a:visited {
+    color: #9CC754;
+}
+a:hover, a:active, a:focus {
+    color: #C8E0A1;
+}
+.inline_attachment span.attachment_author_name {
+    color: #9CC754;
+}
+
+/* Header Area with channel title etc*/
+#header {
+    background: #03436d;
+}
+
+/* Current channel name - split into icon (#) and channel name for different colors */
+#active_channel_name .prefix .ts_icon_channel {
+    color: #fff;
+}
+#active_channel_name .name {
+    color: #9cc754;
+}
+
+/* Member counter in header area */
+#channel_members_toggle {
+    background: #03436d;
+    color: #fff;
+}
+
+/*Message body text*/
+.light_theme .message{
+    color: #ccc;
+}
+.light_theme .message .member {
+    color: #9CC754;
+    font-weight: bold;
+}
+.light_theme .message_sender {
+    color: #9CC754 !important;
+    font-weight: bold;
+}
+
+/* Member pictures - was doing some funky resizing/wiggling when hovered over so I just set opacity at 100% all the time and it fixed it */
+.light_theme .message .member_image {
+    opacity: 1;
+}
+
+/* Day divider */
+.light_theme .msgs_holder .day_divider {
+    background: #065A8F;
+    color: #ddd;
+    font-weight: bold;
+}
+body:not(.feature_new_message_markup) .day_divider_label {
+    background: #065A8F;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* New Messages indicator with a surprising number of components */
+body:not(.feature_new_message_markup) .msgs_holder .unread_divider span.divider_label {
+    background: #065A8F;
+}
+body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr {
+    color: #e3efcf !important;
+}
+div#msgs_unread_divider.unread_divider.no_unreads
+body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads {
+    color: #e3efcf !important;
+}
+body:not(.feature_new_message_markup) .msgs_holder .unread_divider {
+    color: #e3efcf !important;
+}
+body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr {
+    border-top: 1px solid #e3efcf;
+}
+/****************************************/
+/* Footer Area                          */
+/****************************************/
+/* Footer background color */
+#footer {
+    background: #065A8F;
+}
+
+/* Text entry left "+" button - normal, hover, and focus */
+#primary_file_button {
+    background: #03436d;
+    border: 2px solid #03436d;
+    color: #aed6e5;
+}
+#primary_file_button.active, #primary_file_button:hover {
+    background: #1185b1;
+    color: #fff;
+    border-color: #1185b1;
+}
+#message_edit_form.focus #primary_file_button:not(:hover), #messages-input-container.focus #primary_file_button:not(:hover), .inline_message_input_container.focus #primary_file_button:not(:hover) {
+    border-color: #1185b1;
+}
+
+/* Text Entry - normal and focus */
+#message_edit_form #message-input, #messages-input-container #message-input, .inline_message_input_container #message-input {
+    background: #aed6e5 !important;
+    border: 2px solid #03436d;
+    border-left: none;
+    color: #3d3c40;
+}
+#message_edit_form #message-input:focus, #messages-input-container #message-input:focus, .inline_message_input_container #message-input:focus {
+    border-color: #1185b1;
+}
+
+/****************************************/
+/* Channel Area                         */
+/****************************************/
+/* Left pane channel list */
+#col_channels_bg, #col_channels {
+    background: #045286;
+    /*border-right: 3px solid #1185B1;*/
+}
+
+/* Left pane additional overlay parts */
+/*#channels_scroller {
+    background: #045286;
+}*/
+#team_menu, #quick_switcher_btn, #team_menu_overlay, #col_channels_overlay {
+    background: #045286;
+    color: #fff;
+    border-bottom: 3px solid #045286;
+    /*border-right: 3px solid #1185B1;*/
+}
+
+/* Selected channel */
+.channels_list_holder ul li.channel.active a.channel_name .prefix, .channels_list_holder ul li.group.active a.group_name .prefix {
+    color: #9cc754 !important;
+    opacity: 1;
+    font-weight: bold;
+}
+
+/* Selected channel icon*/
+#col_channels ul li.channel.active a.channel_name, #col_channels ul li.group.active a.group_name, #col_channels ul li.member.active a.im_name, #col_channels ul li.mpim.active a.mpim_name {
+    background: #03436d;
+    opacity: 1;
+    color: #9cc754 !important;
+    font-weight: bold;
+}
+
+/****************************************/
+/* Common Elements                      */
+/****************************************/
+
+/* Scroll bar handles */
+#client-ui .monkey_scroll_handle_inner, #monkey_scroll_wrapper_for_channels_scroller .monkey_scroll_handle_inner {
+    background: #15BFFF;
+    opacity: 0.7;
+    border: 3px solid #065a8f;
+}
+
+/* Scroll bar backgrounds */
+#client-ui .monkey_scroll_bar, .channels_list_holder ul li a:hover, #monkey_scroll_wrapper_for_channels_scroller .monkey_scroll_bar {
+    background: #2E3234;
+}
+
+/* In-line emoji reactions */
+.emoji_rxn {
+    background: #045286;
+    border: 1px solid #88C2D8;
+}
+.emoji_rxn.active, .emoji_rxn:hover {
+  border-color: #C8E0A1; }
+  .emoji_rxn.active .emoji_rxn_count, .emoji_rxn:hover .emoji_rxn_count {
+    color: #e6e6e6;
+}
+.emoji_rxn.user_reacted {
+  background-color: #1185B1;
+  border-color: #88C2D8 !important; }
+  .emoji_rxn.user_reacted .emoji_rxn_count {
+    color: #fff;
+}
+.emoji_rxn .emoji_rxn_count {
+  color: #e6e6e6;
+}
+.emoji_rxn.menu_rxn .ts_icon {
+  color: rgba(230, 230, 230, 0.25);
+}
+
+/* Stars */
+#active_channel_name .star.starred {
+    visibility: visible;
+    color: #fc0;
+    opacity: 1;
+}
+#active_channel_name:hover .star.starred {
+    visibility: visible;
+    color: #FFF1BA;
+    opacity: 1;
+}
+
+/* Message editing */
+body:not(.feature_new_message_markup) .message.highlight {
+    background: #88c2d8;
+}
+.light_theme #message_edit_form p, .light_theme #message_edit_form span {
+    color: #000;
+}
+.light_theme #message_edit_form textarea {
+    background: #aed6e5 !important;
+}
+/* Override the link colors due to lighter background color */
+a#cancel_edit, a#commit_edit {
+    color: #03436d;
+}
