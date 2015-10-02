@@ -11,12 +11,18 @@ Created by Hillary Jeffrey, September 2015
 /* Colors!!!                            */
 /****************************************/
 /* Add colors here so it's easier to change them en masse */
-
+/*:root {
+    --sidebar-bg: #045286;
+    --body-bg: #065A8F;
+    --body-txt: #fff;
+}*/
 /****************************************/
 /* Main Message Area                    */
 /****************************************/
 /* Body text */
 body {
+    /*background: var(--body-bg);*/
+    /*color: var(--body-txt);*/
     background: #065A8F;
     color: #fff;
 }
@@ -210,7 +216,7 @@ body:not(.feature_new_message_markup) .msgs_holder .unread_divider hr {
     /*color: #FFFFFF;*/
 }
 
-/* Search area */
+/* Search area in title bar*/
 .search_form .search_input {
     background: #AED6E5;
     border: 1px solid #1185B1;
@@ -227,9 +233,6 @@ body:not(.feature_new_message_markup) .msgs_holder .unread_divider hr {
 input#search_terms.search_input {
     color: #fff;
 }
-/*#client-ui a.icon_close {
-    color: #babbbf;
-}*/
 #client-ui #header_search_form.search_form .icon_close {
     opacity: .7;
 }
@@ -238,6 +241,11 @@ input#search_terms.search_input {
 #messages_unread_status.quiet {
     background: #1185B1;
     color: #FFFFFF;
+}
+
+/* Toasting / Notifications */
+#rxn_toast_div {
+    background: #0E99D3;
 }
 
 /****************************************/
@@ -379,12 +387,15 @@ body:not(.feature_new_message_markup) .message .mention {
 
 /* Attempting to find where it flashes the dialog to a red color */
 .mini.been_seen {
-    color: #ddd;
+    color: #ddd !important;
 }
 .mini {
     color: #ddd;
 }
 
+.been_seen {
+    color: #ddd !important;
+}
 
 /* Group purpose etc */
 /* Purpose/info text color */
@@ -394,4 +405,165 @@ body:not(.feature_new_message_markup) .message .mention {
 /* Group creator name */
 .member_preview_link, .group_link {
     color: #9CC754 !important;
+}
+
+div.msg_highlighter {
+    background-color: #9CC754 !important;
+}
+
+/* Reconnecting */
+#message_edit_form.offline #message-input, #message_edit_form.offline #primary_file_button, #messages-input-container.offline #message-input, #messages-input-container.offline #primary_file_button, .inline_message_input_container.offline #message-input, .inline_message_input_container.offline #primary_file_button {
+    background-color: #fdf1c1 !important;
+}
+#connection_div {
+    height: 26px;
+    line-height: 18px;
+    background: #dfa941;
+}
+
+
+
+/* Other pages */
+header {
+    background: #03436D;
+    color: #9CC754;
+}
+header #menu_toggle, header .header_btns a {
+    color: #9CC754;
+}
+
+/* Tab titles */
+.tab_set a.secondary.selected, .tab_set a.selected {
+    border: 1px solid #4197D3;
+    background: #BEE6FF;
+    border-bottom-color: #BEE6FF;
+    color: #4E5459;
+}
+
+/* Tab contents */
+.tab_pane {
+    background: #BEE6FF;
+    border: 1px solid #4197D3;
+    border-top-color: #BEE6FF;
+    color: #4E5459;
+}
+table tr {
+    border-bottom: 1px solid #065A8F;
+}
+.input_note {
+    /*color: #4A8C74;*/
+    color: #03436D;
+}
+.btn {
+    background: #03436D;
+}
+.btn:hover {
+    /*background: #439FE0;*/
+    background: #9CC754;
+}
+#addemoji a, a.break_word.bold, #page_contents > section > p > a {
+    color: #89B95B;
+}
+#addemoji a:hover, a.break_word.bold:hover, #page_contents > section > p > a:hover {
+    color: #89B95B;
+}
+hr {
+    border-top: 1px solid #065A8F;
+}
+
+/* Preferences Page */
+#welcome_user {
+    color: #9CC754 !important;
+}
+.card {
+    background-color: #045286;
+    border: none;
+}
+a.plastic_row {
+    background: #045286;
+}
+a.plastic_row:hover {
+    background: #03436D;
+}
+.plastic_row h3 {
+    color: #BEE6FF;
+}
+
+/* Mentions & Reactions & dropdowns */
+#flex_contents .heading {
+    color: #9CC754;
+    background: #045286;
+}
+#mentions_options {
+    background: #045286;
+    color: #BEE6FF;
+    border-top: 1px solid #045286;
+}
+#col_flex {
+    background: #045286;
+}
+.mention_rxn .mention_rxn_summary .member_preview_link, .mention_rxn .mention_rxn_summary .mention_rxn_summary_members {
+    color: #BBC1C6;
+}
+body:not(.feature_new_message_markup) .day_divider {
+    background: #065A8F;
+}
+.flexpane_toggle_button#details_toggle.active, .flexpane_toggle_button#details_toggle.active:hover, .flexpane_toggle_button#flex_menu_toggle.active, .flexpane_toggle_button#flex_menu_toggle.active:hover, .flexpane_toggle_button#recent_mentions_toggle.active, .flexpane_toggle_button#recent_mentions_toggle.active:hover, .flexpane_toggle_button#stars_toggle.active, .flexpane_toggle_button#stars_toggle.active:hover {
+    color: #fff/*67686e*/;
+    background-color: #9AC555;
+}
+
+/* Starred items dropdown */
+/* File items */
+#client-ui .tab_container .star_item .file_list_item {
+    background: #E2EECE;
+}
+.tab_container .file_list_item .contents .member, .tab_container .file_list_item .contents .service_link, .tab_container .file_list_item .contents .share_info, .tab_container .file_list_item .contents .time {
+    color: #03436D;
+}
+.tab_container .file_list_item .contents .file_comment_link, .tab_container .file_list_item .contents .file_comment_link .ts_icon {
+    color: #9AC555;
+}
+
+/* Channel page */
+#details_tab .channel_page_section {
+    background: #045286;
+}
+#details_tab .channel_page_section .section_header a {
+    color: #14B6F5;
+}
+
+/* DM hi message*/
+#msgs_scroller_div #end_display_div #end_display_meta h1 {
+    color: #FFFFFF;
+}
+
+
+.indifferent_grey {
+    color: #8AAEC6!important;
+}
+
+.pinned_item .pinned_message_text .pin_truncate_fade {
+    background: -webkit-gradient(linear,left bottom,left top,color-stop(0,#045286),color-stop(1,rgba(4,32,184,0)));
+    background: -moz-linear-gradient(center bottom,#045286 0,rgba(4,32,184,0) 100%);
+    background: -ms-linear-gradient(bottom,#045286,rgba(255,255,255,0));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(4, 32, 184, 0)', endColorstr='#045286', GradientType=0);
+}
+
+.pinned_item {
+    color: #A3B4BF;
+}
+
+.pinned_item .pin_member_name a {
+    color: #99C455 !important;
+}
+
+#details_tab .channel_page_member_row a {
+    color: #0E99D3;
+    font-weight: bold;
+}
+
+/* Emoji background white so transparent ones are visible */
+span.emoji {
+    background-color: #fff;
 }
