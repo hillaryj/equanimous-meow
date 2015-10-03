@@ -49,9 +49,10 @@ null = None
 USERS_FILENAME = "users.txt"
 USE_USERNAME = "name"
 USE_REALNAME = "real_name"
+BOTS_LIST = ['USLACKBOT']
 
 # History Stitching
-OVERALL_HISTORY_FILENAME = "history.txt"
+OVERALL_HISTORY_FILENAME = "_history.txt"
 
 ## Slack URLs
 # Channel List:
@@ -169,7 +170,8 @@ def getUserDict(token):
 def lookupUserID(uid, users, nametype=USE_USERNAME):
     """Retrieves the user name for the specific user ID"""
     if uid not in users:
-        print "User ID not found: '%s'" % uid
+        if uid not in BOTS_LIST:
+            print "User ID not found: '%s'" % uid
         return uid
 
     # print "User lookup: %s -> %s" % (uid, users[uid])
@@ -288,9 +290,11 @@ def loadToken(rootpath):
 ###########################################################
 
 def loadHistoryFile(filename):
-    """"""
+    """Loads a specified saved history file and returns as a python list"""
     if not os.path.exists(filename):
         return []
+    if os.path.isdir(filename):
+        raise IOError("loadHistoryFile: Specified file is actually a directory '%s'" % (filename))
 
     # Load history file
     with open(filename, 'r') as f:
@@ -305,7 +309,8 @@ def formatHistoryList(hist, users):
     """Parses a history list (of dicts) and adds user names
     from user IDs and turns timestamps into floats.
 
-    Modifies in place; returns the list."""
+    Modifies in place; returns the list.
+    TODO: Parse for @mentions in the 'text' field"""
     # Parse through history to perform formatting/updates
     for entry in hist:
         # Turn timestamps into floats
@@ -353,8 +358,21 @@ def saveFile(filename, content, writemode='w'):
 
 def parseChannelHistoryFiles(chdir, users,
                              save_overall_history = True,
-                             force_refresh = True):
-    """"""
+                             force_refresh = True,
+                             ignore_subdirs = True):
+    """Parses all files inside a specified directory and builds the
+    stitched history file. Parses through each file to prevent duplicate
+    entries from history files that overlap, as well as adding user names
+    from the input users dict to the output file for easier human readability.
+
+    Input:
+    - chdir: specified directory containing history files
+    - users: dictionary of user ids and names
+    - save_overall_history: if true, saves to disk; if false does not
+    - force_refresh: if true, re-parses all files; false starts with saved file
+    - ignore_subdirs: NOT IMPLEMENTED - if false will process subdirectories recursively; only True behavior is currently implemented
+
+    Returns overall history list/array."""
     histdict = {}
 
     # Get a list of files in the channel directory
@@ -383,6 +401,14 @@ def parseChannelHistoryFiles(chdir, users,
 
         # Do the rest of the parsing
         hfn = os.path.join(chdir, hfile)
+        # Deal with subdirectories
+        if os.path.isdir(hfn):
+            if ignore_subdirs:
+                print "Ignoring subdirectory %s" % hfile
+                continue
+            else:
+                raise NotImplementedError("Parsing subdirectories is currently NOT IMPLEMENTED")
+                continue
         htmp = loadHistoryFile(hfn)
 
         # Wait to perform the formatting to save processing
@@ -412,7 +438,10 @@ def parseChannelHistoryFiles(chdir, users,
 
 
 def stitchHistory(dest):
-    """"""
+    """Overall stitching method for performing history
+    concatenation and parsing. Processes each subdirectory in the
+    specified destination path and outputs a stitched history file
+    in each subdirectory."""
     # Get the list of channel folders
     destlist = [os.path.join(dest,entry)
                 for entry in os.listdir(dest)
@@ -422,6 +451,7 @@ def stitchHistory(dest):
     users = loadUsersFromFile(dest)
 
     for chdir in destlist:
+        print "Stitching channel %s" % chdir
         chhist = parseChannelHistoryFiles(chdir, users, save_overall_history = True, force_refresh = True)
 
     # Ta da!
@@ -451,10 +481,12 @@ if __name__ == '__main__':
     print "Loading token"
     user_token = loadToken(rootpath)
 
+    # TODO: Add command-line flags to perform each action separately
     if user_token is not None:
         print "Making history..."
         recordHistory(destpath, token=user_token)
         print "Recording user list..."
         recordUsers(destpath, token=user_token)
+        # TODO: History stitching probably doesn't require user_token and can be moved out of this if statement
         print "Stitching history..."
         stitchHistory(destpath)
