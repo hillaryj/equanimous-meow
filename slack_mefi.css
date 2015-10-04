@@ -38,9 +38,16 @@ input#search_terms.search_input {
     color: rgba(230, 230, 230, 0.5);
 }
 
+h2,
+h4,
+#omnibox #omnibox_help,
+.dm_list_real_name,
+.modal label,
+.btn_outline,
+.presence,
 .tab_complete_ui ul.type_emoji li,
 body:not(.feature_new_message_markup) .message .msg_actions,
-.light_theme .message{
+.light_theme .message {
     color: #CCC !important;
 }
 
@@ -108,6 +115,8 @@ header #menu_toggle,
 header .header_btns a,
 .member_preview_link,
 .group_link,
+.dm_list_username,
+.presence.active,
 #welcome_user,
 #typing_text {
     color: #9CC754 !important;
@@ -205,7 +214,7 @@ body:not(.feature_new_message_markup) .msgs_holder .unread_divider {
 /* Header Area with channel title etc*/
 #header,
 nav,
-.btn,
+.menu_footer,
 .monkey_scroll_bar,
 #client-ui .monkey_scroll_bar,
 .channels_list_holder ul li a:hover,
@@ -233,6 +242,9 @@ a.plastic_row,
     border: none;
 }
 
+.btn {
+    background: #065A8F;
+}
 .modal#generic_dialog,
 /* New Messages indicator with a surprising number of components */
 body:not(.feature_new_message_markup) .msgs_holder .unread_divider span.divider_label,
@@ -252,13 +264,26 @@ body:not(.feature_new_message_markup) .message.highlight {
     background: #88c2d8;
 }
 
-.btn:hover {
-    background: #9CC754;
-}
 div.msg_highlighter {
     background: #9CC754 !important;
 }
 
+.uneditable-input,
+input[type=text],
+input[type=password],
+input[type=datetime],
+input[type=datetime-local],
+input[type=date],
+input[type=month],
+input[type=time],
+input[type=week],
+input[type=number],
+input[type=email],
+input[type=url],
+input[type=tel],
+input[type=color],
+input[type=search],
+textarea,
 .light_theme #message_edit_form textarea {
     background: #AED6E5 !important;
 }
@@ -289,6 +314,21 @@ div.msg_highlighter {
 
 /* ~~~~~~~~ Color & Backgrounds ~~~~~~~~~~ */
 
+#quick_switcher_btn:hover,
+/* Channel select box */
+.tab_complete_ui .tab_complete_ui_header {
+    background: #03436D;
+    border-color: #03436D;
+    color: #9CC754;
+}
+
+#menu.flex_menu,
+#menu .section_header .header_label, .menu_example .section_header .header_label {
+    background: #03436D !important;
+    color: #0E99D3;
+    font-weight: bold;
+}
+
 /* Channel members icon */
 header,
 #channel_members_toggle .channel_members_toggle_icon,
@@ -304,27 +344,26 @@ header,
     color: #AED6E5;
 }
 
+#menu_header .menu_simple_header,
+#dms_filter,
+#dms_filter_show_all,
+#file_member_filter,
 .modal-header,
+.modal-footer,
 /* Selected channel icon*/
 #col_channels ul li.channel.active a.channel_name,
 #col_channels ul li.group.active a.group_name,
 #col_channels ul li.member.active a.im_name,
 #col_channels ul li.mpim.active a.mpim_name {
     background: #03436D;
-    color: #9CC754 !important;
+    color: #CCC !important;
     opacity: 1;
     font-weight: bold;
 }
 
-/* Channel select box */
-.tab_complete_ui .tab_complete_ui_header {
-    background: #03436D;
-    border-bottom: 1px solid #03436D;
-    border-color: #03436D;
-    color: #9CC754;
-}
 
 /* Mentions & Reactions & dropdowns */
+.modal,
 #flex_contents .heading {
     background: #045286;
     color: #9CC754;
@@ -347,6 +386,11 @@ header,
     background: #045286;
     color: #FFF;
     border-bottom: 3px solid #045286;
+}
+
+#menu ul li a {
+    background: #065A8F !important;
+    border: none;
 }
 
 /* Day divider */
@@ -375,9 +419,16 @@ body:not(.feature_new_message_markup) .day_divider_label {
 
 #primary_file_button.active,
 #primary_file_button:hover {
-    background: #1185B1;
-    border-color: #1185B1;
-    color: #FFF;
+    background: #15BFFF;
+    border-color: #15BFFF;
+    color: #FFF !important;
+}
+
+a.btn_outline:hover,
+button.btn:hover,
+a.btn:hover {
+    background: #15BFFF;
+    color: #FFF !important;
 }
 
 /* Scroll bar handles */
@@ -388,6 +439,13 @@ body:not(.feature_new_message_markup) .day_divider_label {
     opacity: 0.7;
     border: 3px solid #065a8f;
 }
+
+#menu ul li a:hover {
+    background: #439FE0 !important;
+    border: none;
+    color: #FFF !important;
+}
+
 /* Mentions */
 body:not(.feature_new_message_markup) .message .mention {
     background: #4D8D70;
@@ -480,6 +538,12 @@ hr {
     border-top: 1px solid #065A8F;
 }
 
+#quick_switcher_btn,
+#team_menu,
+#team_menu_overlay,
+#col_channels_overlay {
+    border-color: #03436D;
+}
 
 /* ~~~~~~~ Gradients ~~~~~~~ */
 .pinned_item .pinned_message_text .pin_truncate_fade,
@@ -535,26 +599,6 @@ hr {
     background-color: #fff;
 }*/
 
-/* cog gear menu */
-#menu ul li a {
-    background: #03436D !important;
-    border: none;
-}
-#menu ul li a:hover {
-    background: #439FE0 !important;
-    border: none;
-    color: #FFF !important;
-    /*color: #C7DFA1 !important;*/
-}
-
-#menu.flex_menu,
-#menu .section_header .header_label, .menu_example .section_header .header_label {
-    background: #03436D !important;
-    /*background-color: #03436D;*/
-    color: #0E99D3;
-    font-weight: bold;
-}
-
 #details_tab .channel_page_member_row.away a {
     color: #9e9ea6 !important;
 }
@@ -564,14 +608,3 @@ hr {
     background: #065A8F;
 }
 
-#quick_switcher_btn,
-#team_menu,
-#team_menu_overlay,
-#col_channels_overlay {
-    border-color: #03436D;
-}
-
-#quick_switcher_btn:hover {
-    background: #03436D;
-    border-color: #03436D;
-}
