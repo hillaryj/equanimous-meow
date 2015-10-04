@@ -8,297 +8,174 @@ Created by Hillary Jeffrey, September 2015
 */
 
 /****************************************/
-/* Colors!!!                            */
-/****************************************/
-/* Add colors here so it's easier to change them en masse */
-/*:root {
-    --sidebar-bg: #045286;
-    --body-bg: #065A8F;
-    --body-txt: #fff;
-}*/
-/****************************************/
 /* Main Message Area                    */
 /****************************************/
 /* Body text */
+#footer,
 body {
-    /*background: var(--body-bg);*/
-    /*color: var(--body-txt);*/
     background: #065A8F;
-    color: #fff;
+    color: #FFF;
 }
 
-/* Sitewide link colors */
-a {
-    color: #9CC754;
-}
-a:link, a:visited {
-    color: #9CC754;
-}
-a:hover, a:active, a:focus {
-    color: #C8E0A1;
-}
-.inline_attachment span.attachment_author_name {
-    color: #9CC754;
-}
-/* Group name and purpose links */
-h1 a, h1 a:active, h1 a:hover, h1 a:link, h1 a:visited {
-    color: #9CC754 !important;
-}
+/* ~~~~~~~~~~~ COLOR ONLY ~~~~~~~~~~~~ */
 
-/* Header Area with channel title etc*/
-#header {
-    background: #03436d;
-}
-
-/* Current channel name - split into icon (#) and channel name for different colors */
-#active_channel_name .prefix .ts_icon_channel {
-    color: #fff;
-}
-#active_channel_name .name {
-    color: #9cc754;
-}
-
-/*Message body text*/
-.light_theme .message{
-    color: #ccc;
-}
-.light_theme .message .member {
-    color: #9CC754;
-    font-weight: bold;
-}
-.light_theme .message_sender {
-    color: #9CC754 !important;
-    font-weight: bold;
-}
-/* Channel notifications */
-.light_theme .message.archived .message_content, .light_theme .message.bot_change .message_content, .light_theme .message.joined .message_content, .light_theme .message.left .message_content, .light_theme .message.purpose .message_content, .light_theme .message.rename .message_content, .light_theme .message.sh_created .message_content .sh_auto_msg_text, .light_theme .message.sh_shared .message_content .sh_auto_msg_text, .light_theme .message.topic .message_content, .light_theme .message.unarchived .message_content {
-    color: #c8e0a1;
-}
-
-/* Code */
-code {
-    color: #619D6B;
-    background-color: #D5E2EB;
-    border: 1px solid #8FB1C9;
-}
-
-/* Member pictures - was doing some funky resizing/wiggling when hovered over so I just set opacity at 100% all the time and it fixed it */
-.light_theme .message .member_image {
-    opacity: 1;
-}
-
-/* Day divider */
-.light_theme .msgs_holder .day_divider {
-    background: #065A8F;
-    color: #ddd;
-    font-weight: bold;
-}
-body:not(.feature_new_message_markup) .day_divider_label {
-    background: #065A8F;
-    color: #fff;
-    font-weight: bold;
-}
-
-/* New Messages indicator with a surprising number of components */
-body:not(.feature_new_message_markup) .msgs_holder .unread_divider span.divider_label {
-    background: #065A8F;
-}
-body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr {
-    color: #e3efcf !important;
-}
-div#msgs_unread_divider.unread_divider.no_unreads
-body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads {
-    color: #e3efcf !important;
-}
-body:not(.feature_new_message_markup) .msgs_holder .unread_divider {
-    color: #e3efcf !important;
-}
-body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr {
-    border-top: 1px solid #e3efcf !important;
-}
-body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr {
-    border-top: 1px solid #e3efcf !important;
-}
-body:not(.feature_new_message_markup) .msgs_holder .unread_divider hr {
-    border-top: 1px solid #e3efcf !important;
-}
-/****************************************/
-/* Footer Area                          */
-/****************************************/
-/* Footer background color */
-#footer {
-    background: #065A8F;
-}
-
-/* Text entry left "+" button - normal, hover, and focus */
-#primary_file_button {
-    background: #03436d;
-    border: 2px solid #03436d;
-    color: #aed6e5;
-}
-#primary_file_button.active, #primary_file_button:hover {
-    background: #1185b1;
-    color: #fff;
-    border-color: #1185b1;
-}
-#message_edit_form.focus #primary_file_button:not(:hover), #messages-input-container.focus #primary_file_button:not(:hover), .inline_message_input_container.focus #primary_file_button:not(:hover) {
-    border-color: #03436d;
-}
-
-/* Text Entry - normal and focus */
-#message_edit_form #message-input, #messages-input-container #message-input, .inline_message_input_container #message-input {
-    background: #aed6e5 !important;
-    border: 2px solid #03436d;
-    border-left: none;
-    color: #3d3c40;
-}
-#message_edit_form #message-input:focus, #messages-input-container #message-input:focus, .inline_message_input_container #message-input:focus {
-    border-color: #1185b1;
-}
-
-/* People are typing text*/
-#typing_text {
-    color: #9CC754;
-}
-
-/****************************************/
-/* Channel Area                         */
-/****************************************/
-/* Left pane channel list */
-#col_channels_bg, #col_channels {
-    background: #045286;
-    /*border-right: 3px solid #1185B1;*/
-}
-
-/* Left pane additional overlay parts */
-/*#channels_scroller {
-    background: #045286;
-}*/
-#team_menu, #quick_switcher_btn, #team_menu_overlay, #col_channels_overlay {
-    background: #045286;
-    color: #fff;
-    border-bottom: 3px solid #045286;
-    /*border-right: 3px solid #1185B1;*/
-}
-
-/* Selected channel */
-.channels_list_holder ul li.channel.active a.channel_name .prefix, .channels_list_holder ul li.group.active a.group_name .prefix {
-    color: #9cc754 !important;
-    opacity: 1;
-    font-weight: bold;
-}
-
-/* Selected channel icon*/
-#col_channels ul li.channel.active a.channel_name, #col_channels ul li.group.active a.group_name, #col_channels ul li.member.active a.im_name, #col_channels ul li.mpim.active a.mpim_name {
-    background: #03436d;
-    opacity: 1;
-    color: #9cc754 !important;
-    font-weight: bold;
-}
-
-/****************************************/
-/* Header Elements                      */
-/****************************************/
-
-/* Channel members icon */
-#channel_members_toggle .channel_members_toggle_icon, #channel_members_toggle {
-    background: #03436d;
-    color: #9CC754;
-}
-
-.flexpane_toggle_button {
-    color: #9CC754;
-    /*color: #FFFFFF;*/
-}
-
-/* Search area in title bar*/
-.search_form .search_input {
-    background: #AED6E5;
-    border: 1px solid #1185B1;
-}
-.highlighter_underlay .ghost_text {
-    color: #FFFFFF;
-}
-#header_search_form.search_form .icon_search {
-    opacity: .5;
-    top: 6px;
-    left: 7px;
-    color: #98C455;
-}
+h3,
+#active_channel_name .prefix .ts_icon_channel, /* Active channel icon */
+/* DM hi message*/
+#msgs_scroller_div #end_display_div #end_display_meta h1,
+.highlighter_underlay .ghost_text,
 input#search_terms.search_input {
-    color: #fff;
-}
-#client-ui #header_search_form.search_form .icon_close {
-    opacity: .7;
+    color: #FFF;
 }
 
-/* Unread messages */
-#messages_unread_status.quiet {
-    background: #1185B1;
-    color: #FFFFFF;
+#over_messages_limit_div {
+    background: transparent;
+    color: #FFF;
 }
 
-/* Toasting / Notifications */
-#rxn_toast_div {
-    background: #0E99D3;
-}
-
-/****************************************/
-/* Common Elements                      */
-/****************************************/
-
-/* Scroll bar handles */
-.monkey_scroll_handle_inner, #client-ui .monkey_scroll_handle_inner, #monkey_scroll_wrapper_for_channels_scroller .monkey_scroll_handle_inner {
-    background: #15BFFF !important;
-    opacity: 0.7;
-    border: 3px solid #065a8f;
-}
-
-/* Scroll bar backgrounds */
-.monkey_scroll_bar, #client-ui .monkey_scroll_bar, .channels_list_holder ul li a:hover, #monkey_scroll_wrapper_for_channels_scroller .monkey_scroll_bar {
-    background: #03436D !important;
-}
-
-/* Emoji menu */
-#emoji_menu {
-    background: #03436D;
-    /*background: #045286;*/
-}
-#emoji_menu.all_emoji #emoji_menu_header {
-    background: #03436D;
-}
-
-
-/* In-line emoji reactions */
-.emoji_rxn {
-    background-color: #1185B1;
-    border: 1px solid #88C2D8;
-}
-.emoji_rxn.active, .emoji_rxn:hover {
-    border-color: #C8E0A1;
-}
-.emoji_rxn.active .emoji_rxn_count, .emoji_rxn:hover .emoji_rxn_count {
-    color: #e6e6e6;
-}
-.emoji_rxn .emoji_rxn_count {
-  color: #e6e6e6;
-}
-/* Current user reacted reactions */
-.emoji_rxn.user_reacted {
-    background: #AED6E5;
-    border-color: #88C2D8 !important;
-}
-.emoji_rxn.user_reacted .emoji_rxn_count {
-    color: #0F7EAC;
-}
 /* Smiley face icon */
 .emoji_rxn.menu_rxn .ts_icon {
     color: rgba(230, 230, 230, 0.5);
 }
 
+.tab_complete_ui ul.type_emoji li,
+body:not(.feature_new_message_markup) .message .msg_actions,
+.light_theme .message{
+    color: #CCC !important;
+}
+
+.light_theme #message_edit_form p,
+.light_theme #message_edit_form span {
+    color: #000;
+}
+
+/* Text colors */
+.tab_container .file_list_item .contents .member,
+.tab_container .file_list_item .contents .service_link,
+.tab_container .file_list_item .contents .share_info,
+.tab_container .file_list_item .contents .time,
+a#cancel_edit, /* Override link colors for lighter bg color */
+a#commit_edit, /* Override link colors for lighter bg color */
+.input_note {
+    color: #03436D;
+}
+
+#details_tab .channel_page_member_row a {
+    color: #15BFFF;
+    font-weight: bold;
+}
+
+.emoji_rxn.user_reacted .emoji_rxn_count {
+    color: #0F7EAC;
+}
+
+#details_tab .channel_page_section .section_header a, /*{color: #14B6F5;}*/
+#msgs_scroller_div #end_display_div p {
+    color: #15BFFF;
+}
+
+.indifferent_grey {
+    color: #8AAEC6 !important;
+}
+
+#addemoji a,
+a.break_word.bold,
+#page_contents > section > p > a,
+#addemoji a:hover,
+a.break_word.bold:hover,
+#page_contents > section > p > a:hover {
+    color: #89B95B;
+}
+
+a,
+a:link,
+a:visited, /*Sitewide link colors*/
+.inline_attachment span.attachment_author_name,
+#active_channel_name .name, /* Active channel name */
+h1 a,
+h1 a:active,
+h1 a:hover,
+h1 a:link,
+h1 a:visited, /* Group name and purpose links */
+body:not(.feature_new_message_markup) .message:hover .msg_actions:hover,
+space header .owner_detail .file_title_header,
+space header .owner_detail .inline-edit,
+.tab_container .file_list_item .contents .file_comment_link,
+.tab_container .file_list_item .contents .file_comment_link .ts_icon,
+.pinned_item .pin_member_name a,
+.flexpane_toggle_button,
+header #menu_toggle,
+header .header_btns a,
+.member_preview_link,
+.group_link,
+#welcome_user,
+#typing_text {
+    color: #9CC754 !important;
+}
+
+.light_theme .message .member,
+.light_theme .message_sender,
+/* Selected channel */
+.channels_list_holder ul li.channel.active a.channel_name .prefix,
+.channels_list_holder ul li.group.active a.group_name .prefix {
+    color: #9CC754 !important;
+    opacity: 1;
+    font-weight: bold;
+}
+#header_search_form.search_form .icon_search {
+    color: #9CC754;
+    opacity: 0.5;
+}
+#loading_indicator {
+    color: #9CC754;
+    text-shadow: 0 1px #045286;
+}
+
+.pinned_item,
+.file_container.post_container {
+    color: #A3B4BF;
+}
+
+.mention_rxn .mention_rxn_summary .member_preview_link,/* {color: #BBC1C6;}*/
+.mention_rxn .mention_rxn_summary .mention_rxn_summary_members,/* {color: #BBC1C6;}*/
+.plastic_row h3,
+#msg_1443828612_000397 > div.file_container.post_container.inline_collapsed > div.file_header.post_header > h4,
+rocket {
+    color: #BEE6FF;
+}
+
+a:hover,
+a:active,
+a:focus,
+.light_theme .message.archived .message_content,
+.light_theme .message.bot_change .message_content,
+.light_theme .message.joined .message_content,
+.light_theme .message.left .message_content,
+.light_theme .message.purpose .message_content,
+.light_theme .message.rename .message_content,
+.light_theme .message.sh_created .message_content .sh_auto_msg_text,
+.light_theme .message.sh_shared .message_content .sh_auto_msg_text,
+.light_theme .message.topic .message_content,
+.light_theme .message.unarchived .message_content {
+    color: #C8E0A1;
+}
+
+body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr,
+div#msgs_unread_divider.unread_divider.no_unreads body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads,
+body:not(.feature_new_message_markup) .msgs_holder .unread_divider {
+    color: #439FE0 !important;
+    /*color: #e3efcf !important;*/
+}
+
+.emoji_rxn.active .emoji_rxn_count,
+.emoji_rxn:hover .emoji_rxn_count,
+.emoji_rxn .emoji_rxn_count {
+    color: #e6e6e6;
+}
+
 /* Stars */
 #active_channel_name .star.starred {
-    color: #fc0;
+    color: #FC0;
     opacity: 1;
 }
 #active_channel_name:hover .star.starred {
@@ -306,60 +183,11 @@ input#search_terms.search_input {
     opacity: 1;
 }
 
-/* Message editing */
-body:not(.feature_new_message_markup) .message.highlight {
-    background: #88c2d8;
-}
-.light_theme #message_edit_form p, .light_theme #message_edit_form span {
-    color: #000;
-}
-.light_theme #message_edit_form textarea {
-    background: #aed6e5 !important;
-}
-/* Override the link colors due to lighter background color */
-a#cancel_edit, a#commit_edit {
-    color: #03436d;
-}
 
-/* Mentions */
-body:not(.feature_new_message_markup) .message .mention {
-    background: #4D8D70;
-    color: #fff;
-}
 
-/****************************************/
-/* Loading Page                         */
-/****************************************/
-
-/*#loading-zone {
-    ;
-}*/
-#col_channels_bg {
-    background: #045286;
-}
-.loading #loading_team_menu_bg,
-.loading #loading_user_menu_bg {
-    display: block;
-}
-#loading_team_menu_bg,
-#loading_user_menu_bg {
-    background: #045286;
-}
-/*#loading_team_menu_bg {
-    height: 53px;
-    border-bottom: 2px solid #372c36;
-    top: 0;
-}*/
-/*#loading_user_menu_bg {
-    height: 4rem;
-    border-top: 2px solid #372c36;
-    bottom: 0;
-}*/
-.loading #loading-zone {
-    background: #065A8F;
-}
-#loading_indicator {
-    color: #9CC754;
+#loading_welcome_author {
+    color: #15BFFF;
+    opacity: 0;
     text-shadow: 0 1px #045286;
 }
 #loading_welcome_msg {
@@ -367,246 +195,383 @@ body:not(.feature_new_message_markup) .message .mention {
     opacity: 1;
     text-shadow: 0 1px #045286;
 }
-#loading_welcome_author {
-    color: #15BFFF;
-    opacity: 0;
-    text-shadow: 0 1px #045286;
+
+
+
+/* ~~~~~~~~ Backgrounds ~~~~~~~~~~ */
+
+
+
+/* Header Area with channel title etc*/
+#header,
+nav,
+.btn,
+.monkey_scroll_bar,
+#client-ui .monkey_scroll_bar,
+.channels_list_holder ul li a:hover,
+#monkey_scroll_wrapper_for_channels_scroller .monkey_scroll_bar,
+#monkey_scroll_wrapper_for_menu_items_scroller,
+a.plastic_row:hover,
+#emoji_menu,
+#emoji_menu.all_emoji #emoji_menu_header {
+    background: #03436D !important;
 }
 
-/* Over storage limit box */
-#over_storage_limit_div, #over_integrations_limit_div {
-    background-color: #aed6e5;
-    color: #777;
-    border: 2px solid #1185B1;
+/* Left pane channel list */
+#col_channels_bg,
+#col_channels,
+#col_flex,
+#col_channels_bg,
+#loading_team_menu_bg,
+#loading_user_menu_bg,
+a.plastic_row,
+#details_tab .channel_page_section {
+    background: #045286;
+}
+.card {
+    background: #045286;
+    border: none;
 }
 
-#over_messages_limit_div {
-    background-color: transparent;
-    color: #fff;
+.modal#generic_dialog,
+/* New Messages indicator with a surprising number of components */
+body:not(.feature_new_message_markup) .msgs_holder .unread_divider span.divider_label,
+body:not(.feature_new_message_markup) .day_divider,
+.loading #loading-zone,
+space header {
+    background: #065A8F !important;
 }
 
-#over_storage_limit_div a, #over_integrations_limit_div a {
-    background-color: #f4e8d6;
-    color: #fff;
+/* Toasting / Notifications */
+#rxn_toast_div {
+    background: #15BFFF;
 }
 
-/* Attempting to find where it flashes the dialog to a red color */
-.mini.been_seen {
-    color: #ddd !important;
-}
-.mini {
-    color: #ddd;
+/* Message editing */
+body:not(.feature_new_message_markup) .message.highlight {
+    background: #88c2d8;
 }
 
-.been_seen {
-    color: #ddd !important;
+.btn:hover {
+    background: #9CC754;
 }
-
-/* Group purpose etc */
-/* Purpose/info text color */
-#msgs_scroller_div #end_display_div p {
-    color: #15BFFF;
-}
-/* Group creator name */
-.member_preview_link, .group_link {
-    color: #9CC754 !important;
-}
-
 div.msg_highlighter {
-    background-color: #9CC754 !important;
+    background: #9CC754 !important;
 }
+
+.light_theme #message_edit_form textarea {
+    background: #AED6E5 !important;
+}
+
+#connection_div {
+    background: #DFA941;
+}
+
+#client-ui .tab_container .file_list_item,
+.tab_container .file_list_item .actions .btn_icon,
+#client-ui .tab_container .feature_channel_details .file_list_item,
+#client-ui .tab_container .star_item .file_list_item {
+    background: #E2EECE !important;
+}
+
 
 /* Reconnecting */
-#message_edit_form.offline #message-input, #message_edit_form.offline #primary_file_button, #messages-input-container.offline #message-input, #messages-input-container.offline #primary_file_button, .inline_message_input_container.offline #message-input, .inline_message_input_container.offline #primary_file_button {
-    background-color: #fdf1c1 !important;
+#message_edit_form.offline #message-input,
+#message_edit_form.offline #primary_file_button,
+#messages-input-container.offline #message-input,
+#messages-input-container.offline #primary_file_button,
+.inline_message_input_container.offline #message-input,
+.inline_message_input_container.offline #primary_file_button {
+    background: #FDF1C1 !important;
 }
-#connection_div {
-    height: 26px;
-    line-height: 18px;
-    background: #dfa941;
-}
 
 
 
-/* Other pages */
-header {
+/* ~~~~~~~~ Color & Backgrounds ~~~~~~~~~~ */
+
+/* Channel members icon */
+header,
+#channel_members_toggle .channel_members_toggle_icon,
+#channel_members_toggle {
     background: #03436D;
     color: #9CC754;
 }
-header #menu_toggle, header .header_btns a {
+
+/* Text entry left "+" button - normal, hover, and focus */
+#primary_file_button {
+    background: #03436D;
+    border: 2px solid #03436D;
+    color: #AED6E5;
+}
+
+.modal-header,
+/* Selected channel icon*/
+#col_channels ul li.channel.active a.channel_name,
+#col_channels ul li.group.active a.group_name,
+#col_channels ul li.member.active a.im_name,
+#col_channels ul li.mpim.active a.mpim_name {
+    background: #03436D;
+    color: #9CC754 !important;
+    opacity: 1;
+    font-weight: bold;
+}
+
+/* Channel select box */
+.tab_complete_ui .tab_complete_ui_header {
+    background: #03436D;
+    border-bottom: 1px solid #03436D;
+    border-color: #03436D;
     color: #9CC754;
 }
 
-/* Tab titles */
-.tab_set a.secondary.selected, .tab_set a.selected {
-    border: 1px solid #4197D3;
-    background: #BEE6FF;
-    border-bottom-color: #BEE6FF;
-    color: #4E5459;
+/* Mentions & Reactions & dropdowns */
+#flex_contents .heading {
+    background: #045286;
+    color: #9CC754;
+}
+.tab_complete_ui {
+    background: #045286;
+    border: 1px solid #03436D;
+    color: #8AAEC6;
+}
+#mentions_options {
+    background: #045286;
+    border-top: 1px solid #045286;
+    color: #BEE6FF;
 }
 
-/* Tab contents */
+#team_menu,
+#quick_switcher_btn,
+#team_menu_overlay,
+#col_channels_overlay {
+    background: #045286;
+    color: #FFF;
+    border-bottom: 3px solid #045286;
+}
+
+/* Day divider */
+#emoji_menu h3,
+.light_theme .msgs_holder .day_divider {
+    background: #065A8F;
+    color: #CCC;
+    font-weight: bold;
+}
+body:not(.feature_new_message_markup) .day_divider_label {
+    background: #065A8F;
+    color: #FFF;
+    font-weight: bold;
+}
+
+/* Unread messages */
+#messages_unread_status.quiet {
+    background: #1185B1;
+    color: #FFF;
+}
+/* In-line emoji reactions */
+.emoji_rxn {
+    background: #1185B1;
+    border: 1px solid #88C2D8;
+}
+
+#primary_file_button.active,
+#primary_file_button:hover {
+    background: #1185B1;
+    border-color: #1185B1;
+    color: #FFF;
+}
+
+/* Scroll bar handles */
+.monkey_scroll_handle_inner,
+#client-ui .monkey_scroll_handle_inner,
+#monkey_scroll_wrapper_for_channels_scroller .monkey_scroll_handle_inner {
+    background: #15BFFF !important;
+    opacity: 0.7;
+    border: 3px solid #065a8f;
+}
+/* Mentions */
+body:not(.feature_new_message_markup) .message .mention {
+    background: #4D8D70;
+    color: #FFF;
+}
+
+.flexpane_toggle_button#details_toggle.active,
+.flexpane_toggle_button#details_toggle.active:hover,
+.flexpane_toggle_button#flex_menu_toggle.active,
+.flexpane_toggle_button#flex_menu_toggle.active:hover,
+.flexpane_toggle_button#recent_mentions_toggle.active,
+.flexpane_toggle_button#recent_mentions_toggle.active:hover,
+.flexpane_toggle_button#stars_toggle.active,
+.flexpane_toggle_button#stars_toggle.active:hover {
+    background: #9AC555;
+    color: #FFF !important;
+}
+
+/* Current user reacted reactions */
+.emoji_rxn.user_reacted {
+    background: #AED6E5;
+    border-color: #88C2D8 !important;
+}
+
+/* Search area in title bar*/
+.search_form .search_input {
+    background: #AED6E5;
+    border: 1px solid #1185B1;
+}
+
+/* Text Entry - normal */
+#message_edit_form #message-input,
+#messages-input-container #message-input,
+.inline_message_input_container #message-input {
+    background: #AED6E5 !important;
+    border: 2px solid #03436D;
+    border-left: none;
+    color: #3D3C40;
+}
+
+/* Tab titles & contents */
+.tab_set a.secondary.selected,
+.tab_set a.selected,
 .tab_pane {
     background: #BEE6FF;
     border: 1px solid #4197D3;
     border-top-color: #BEE6FF;
     color: #4E5459;
 }
+
+/* Code snippets */
+code {
+    background: #D5E2EB;
+    border: 1px solid #8FB1C9;
+    color: #619D6B;
+}
+
+/* ~~~~~~~ Borders Only ~~~~~~~ */
+
+/* Text Entry - on focus */
+#message_edit_form #message-input:focus,
+#messages-input-container #message-input:focus,
+.inline_message_input_container #message-input:focus {
+    border-color: #1185B1;
+}
+
+#message_edit_form.focus #primary_file_button:not(:hover),
+#messages-input-container.focus #primary_file_button:not(:hover),
+.inline_message_input_container.focus #primary_file_button:not(:hover) {
+    border-color: #03436D;
+}
+
+.emoji_rxn.active,
+.emoji_rxn:hover {
+    border-color: #C8E0A1;
+}
+
+body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr,
+body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr,
+body:not(.feature_new_message_markup) .msgs_holder .unread_divider hr {
+    border-top: 1px solid #439FE0 !important;
+    /*border-top: 1px solid #E3EFCF !important;*/
+}
+
 table tr {
     border-bottom: 1px solid #065A8F;
 }
-.input_note {
-    /*color: #4A8C74;*/
-    color: #03436D;
-}
-.btn {
-    background: #03436D;
-}
-.btn:hover {
-    /*background: #439FE0;*/
-    background: #9CC754;
-}
-#addemoji a, a.break_word.bold, #page_contents > section > p > a {
-    color: #89B95B;
-}
-#addemoji a:hover, a.break_word.bold:hover, #page_contents > section > p > a:hover {
-    color: #89B95B;
-}
+
 hr {
     border-top: 1px solid #065A8F;
 }
 
-/* Preferences Page */
-#welcome_user {
-    color: #9CC754 !important;
-}
-.card {
-    background-color: #045286;
-    border: none;
-}
-a.plastic_row {
-    background: #045286;
-}
-a.plastic_row:hover {
-    background: #03436D;
-}
-.plastic_row h3, #msg_1443828612_000397 > div.file_container.post_container.inline_collapsed > div.file_header.post_header > h4 {
-    color: #BEE6FF;
-}
 
-/* Mentions & Reactions & dropdowns */
-#flex_contents .heading {
-    color: #9CC754;
-    background: #045286;
-}
-#mentions_options {
-    background: #045286;
-    color: #BEE6FF;
-    border-top: 1px solid #045286;
-}
-#col_flex {
-    background: #045286;
-}
-.mention_rxn .mention_rxn_summary .member_preview_link, .mention_rxn .mention_rxn_summary .mention_rxn_summary_members {
-    color: #BBC1C6;
-}
-body:not(.feature_new_message_markup) .day_divider {
-    background: #065A8F;
-}
-.flexpane_toggle_button#details_toggle.active, .flexpane_toggle_button#details_toggle.active:hover, .flexpane_toggle_button#flex_menu_toggle.active, .flexpane_toggle_button#flex_menu_toggle.active:hover, .flexpane_toggle_button#recent_mentions_toggle.active, .flexpane_toggle_button#recent_mentions_toggle.active:hover, .flexpane_toggle_button#stars_toggle.active, .flexpane_toggle_button#stars_toggle.active:hover {
-    color: #fff/*67686e*/;
-    background-color: #9AC555;
-}
-
-/* Starred items dropdown */
-/* File items */
-#client-ui .tab_container .star_item .file_list_item {
-    background: #E2EECE;
-}
-.tab_container .file_list_item .contents .member, .tab_container .file_list_item .contents .service_link, .tab_container .file_list_item .contents .share_info, .tab_container .file_list_item .contents .time {
-    color: #03436D;
-}
-.tab_container .file_list_item .contents .file_comment_link, .tab_container .file_list_item .contents .file_comment_link .ts_icon {
-    color: #9AC555;
-}
-
-/* Channel page */
-#details_tab .channel_page_section {
-    background: #045286;
-}
-#details_tab .channel_page_section .section_header a {
-    color: #14B6F5;
-}
-
-/* DM hi message*/
-#msgs_scroller_div #end_display_div #end_display_meta h1 {
-    color: #FFFFFF;
-}
-
-
-.indifferent_grey {
-    color: #8AAEC6!important;
-}
-
-.pinned_item .pinned_message_text .pin_truncate_fade, .file_container.post_container:after {
+/* ~~~~~~~ Gradients ~~~~~~~ */
+.pinned_item .pinned_message_text .pin_truncate_fade,
+.file_container.post_container:after {
     background: -webkit-gradient(linear,left bottom,left top,color-stop(0,#045286),color-stop(1,rgba(4,32,184,0)));
     background: -moz-linear-gradient(center bottom,#045286 0,rgba(4,32,184,0) 100%);
     background: -ms-linear-gradient(bottom,#045286,rgba(255,255,255,0));
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(4, 32, 184, 0)', endColorstr='#045286', GradientType=0);
 }
 
-.pinned_item, .file_container.post_container {
-    color: #A3B4BF;
+/* ~~~~~~~ Opacity ~~~~~~~ */
+
+/* Member pictures - was doing some funky resizing/wiggling when hovered over so I just set opacity at 100% all the time and it fixed it */
+.light_theme .message .member_image {
+    opacity: 1;
 }
 
-.pinned_item .pin_member_name a {
-    color: #99C455 !important;
+#client-ui #header_search_form.search_form .icon_close {
+    opacity: 0.7;
 }
 
-#details_tab .channel_page_member_row a {
+.tab_complete_ui .tab_complete_ui_header {
+    text-shadow: none;
+}
+
+/****************************************/
+/* In Progress                          */
+/****************************************/
+
+/* Attempting to find where it flashes the dialog to a red color */
+.mini.been_seen,
+.mini,
+.been_seen {
+    color: #DDD !important;
+}
+
+/* Over storage limit box */
+#over_storage_limit_div,
+#over_integrations_limit_div {
+    background: #AED6E5;
+    color: #777;
+    border: 2px solid #1185B1;
+}
+
+#over_storage_limit_div a,
+#over_integrations_limit_div a {
+    background: #F4E8D6;
+    color: #FFF;
+}
+
+/* Set custom emoji background white so transparent ones are visible */
+/*span.emoji {
+    background-color: #fff;
+}*/
+
+/* cog gear menu */
+#menu ul li a {
+    background: #03436D !important;
+    border: none;
+}
+#menu ul li a:hover {
+    background: #439FE0 !important;
+    border: none;
+    color: #FFF !important;
+    /*color: #C7DFA1 !important;*/
+}
+
+#menu.flex_menu,
+#menu .section_header .header_label, .menu_example .section_header .header_label {
+    background: #03436D !important;
+    /*background-color: #03436D;*/
     color: #0E99D3;
     font-weight: bold;
 }
 
-/* Emoji background white so transparent ones are visible */
-span.emoji {
-    background-color: #fff;
+#details_tab .channel_page_member_row.away a {
+    color: #9e9ea6 !important;
 }
 
-/* Channel select box */
-.tab_complete_ui .tab_complete_ui_header {
-    background: #03436D;
-    color: #9CC754;
-    border-bottom: 1px solid #03436D;
+/* Emoji selector */
+#monkey_scroll_wrapper_for_emoji_menu_items_scroller {
+    background: #065A8F;
+}
+
+#quick_switcher_btn,
+#team_menu,
+#team_menu_overlay,
+#col_channels_overlay {
     border-color: #03436D;
 }
 
-.tab_complete_ui {
-    background: #045286;
-    /*box-shadow: 0 1px 15px rgba(64,54,63,.25);*/
-    border: 1px solid #03436D;
-    color: #8AAEC6;
-}
-
-/* Gear icon */
-/*body:not(.feature_new_message_markup) .message .msg_actions {
-
-}*/
-body:not(.feature_new_message_markup) .message:hover .msg_actions:hover {
-    color: #9cc754;
-}
-
-/* Posts in a separate window */
-rocket {
-    color: #BEE6FF;
-}
-
-nav {
-    background-color: #03436D;
-}
-space header .owner_detail .file_title_header, space header .owner_detail .inline-edit {
-    color: #9CC754;
-}
-space header {
-    background: #065A8F !important;
+#quick_switcher_btn:hover {
+    background: #03436D;
+    border-color: #03436D;
 }
