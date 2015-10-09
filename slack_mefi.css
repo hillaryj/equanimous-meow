@@ -40,6 +40,8 @@ input#search_terms.search_input {
 
 h2,
 h4,
+#file_list_toggle_users.active,
+.menu_meta,
 #omnibox #omnibox_help,
 .dm_list_real_name,
 .modal label,
@@ -67,16 +69,16 @@ a#commit_edit, /* Override link colors for lighter bg color */
     color: #03436D;
 }
 
+.emoji_rxn.user_reacted .emoji_rxn_count {
+    color: #0F7EAC;
+}
+
 #details_tab .channel_page_member_row a {
     color: #15BFFF;
     font-weight: bold;
 }
 
-.emoji_rxn.user_reacted .emoji_rxn_count {
-    color: #0F7EAC;
-}
-
-#details_tab .channel_page_section .section_header a, /*{color: #14B6F5;}*/
+#details_tab .channel_page_section .section_header a,
 #msgs_scroller_div #end_display_div p {
     color: #15BFFF;
 }
@@ -97,6 +99,7 @@ a.break_word.bold:hover,
 a,
 a:link,
 a:visited, /*Sitewide link colors*/
+#file_list_toggle_users.active:hover,
 .inline_attachment span.attachment_author_name,
 #active_channel_name .name, /* Active channel name */
 h1 a,
@@ -122,6 +125,7 @@ header .header_btns a,
     color: #9CC754 !important;
 }
 
+.menu_member_user_details .member_name,
 .light_theme .message .member,
 .light_theme .message_sender,
 /* Selected channel */
@@ -131,10 +135,13 @@ header .header_btns a,
     opacity: 1;
     font-weight: bold;
 }
+
 #header_search_form.search_form .icon_search {
     color: #9CC754;
     opacity: 0.5;
 }
+
+#emoji_menu #emoji_preview_deluxe,
 #loading_indicator {
     color: #9CC754;
     text-shadow: 0 1px #045286;
@@ -187,12 +194,11 @@ body:not(.feature_new_message_markup) .msgs_holder .unread_divider {
     color: #FC0;
     opacity: 1;
 }
+
 #active_channel_name:hover .star.starred {
     color: #FFF1BA;
     opacity: 1;
 }
-
-
 
 #loading_welcome_author {
     color: #15BFFF;
@@ -222,6 +228,7 @@ nav,
 #monkey_scroll_wrapper_for_menu_items_scroller,
 a.plastic_row:hover,
 #emoji_menu,
+#emoji_menu_footer,
 #emoji_menu.all_emoji #emoji_menu_header {
     background: #03436D !important;
 }
@@ -242,6 +249,7 @@ a.plastic_row,
     border: none;
 }
 
+#emoji_menu.all_emoji a.emoji_grouping_tab:hover,
 .btn {
     background: #065A8F;
 }
@@ -315,9 +323,11 @@ textarea,
 /* ~~~~~~~~ Color & Backgrounds ~~~~~~~~~~ */
 
 #quick_switcher_btn:hover,
+#emoji_preview_text,
+#emoji_h3_default_rxns,
 /* Channel select box */
 .tab_complete_ui .tab_complete_ui_header {
-    background: #03436D;
+    background: #03436D !important;
     border-color: #03436D;
     color: #9CC754;
 }
@@ -344,6 +354,7 @@ header,
     color: #AED6E5;
 }
 
+.menu_member_user_details,
 #menu_header .menu_simple_header,
 #dms_filter,
 #dms_filter_show_all,
@@ -364,6 +375,7 @@ header,
 
 /* Mentions & Reactions & dropdowns */
 .modal,
+#flex_contents .toolbar,
 #flex_contents .heading {
     background: #045286;
     color: #9CC754;
@@ -388,12 +400,12 @@ header,
     border-bottom: 3px solid #045286;
 }
 
+/*#menu ul li,*/
 #menu ul li a {
-    background: #065A8F !important;
+    background: #03436D !important;
     border: none;
 }
 
-/* Day divider */
 #emoji_menu h3,
 .light_theme .msgs_holder .day_divider {
     background: #065A8F;
@@ -506,6 +518,7 @@ code {
 /* ~~~~~~~ Borders Only ~~~~~~~ */
 
 /* Text Entry - on focus */
+#flex_contents .help,
 #message_edit_form #message-input:focus,
 #messages-input-container #message-input:focus,
 .inline_message_input_container #message-input:focus {
@@ -528,6 +541,10 @@ body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr
 body:not(.feature_new_message_markup) .msgs_holder .unread_divider hr {
     border-top: 1px solid #439FE0 !important;
     /*border-top: 1px solid #E3EFCF !important;*/
+}
+
+#flex_contents .flexpane_tab_bar li.active {
+    border-color: #9CC754;
 }
 
 table tr {
@@ -604,7 +621,44 @@ hr {
 }
 
 /* Emoji selector */
-#monkey_scroll_wrapper_for_emoji_menu_items_scroller {
+#emoji_menu #monkey_scroll_wrapper_for_emoji_menu_items_scroller {
     background: #065A8F;
 }
 
+
+#emoji_menu.all_emoji a.emoji_grouping_tab.active {
+    background: #0E99D3;
+    border-color: #9CC754;
+}
+
+#new_prefs_dialog .modal-nav {
+    border-color: #15BFFF;
+    background: #03436D;
+}
+
+#new_prefs_dialog .modal-nav a {
+    text-shadow: 0 1px 0 #03436D;
+    color: #555459;
+}
+
+rocket .cl.text, rocket>div>.checklist,
+.pinned_item, .file_container.post_container,
+.post_body ul.checklist {
+    color: #000;
+    background-color: #AED6E5;
+}
+
+/* ===[ Filters ]=== */
+
+.snippet_preview,
+.special_formatting,
+.CodeMirror,
+code,
+.icon_loading,
+pre,
+.backup_codes_wrapper,
+nav.top.persistent .logo {
+    filter: invert(100%);
+    -moz-filter: invert(100%);
+    -webkit-filter: invert(100%); }
+}
