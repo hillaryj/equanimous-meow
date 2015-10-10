@@ -21,6 +21,7 @@ body {
 
 h3,
 #active_channel_name .prefix .ts_icon_channel, /* Active channel icon */
+#emoji_menu #emoji_preview_text,
 /* DM hi message*/
 #msgs_scroller_div #end_display_div #end_display_meta h1,
 .highlighter_underlay .ghost_text,
@@ -28,18 +29,8 @@ input#search_terms.search_input {
     color: #FFF;
 }
 
-#over_messages_limit_div {
-    background: transparent;
-    color: #FFF;
-}
-
-/* Smiley face icon */
-.emoji_rxn.menu_rxn .ts_icon {
-    color: rgba(230, 230, 230, 0.5);
-}
 
 h2,
-h4,
 #file_list_toggle_users.active,
 .menu_meta,
 #omnibox #omnibox_help,
@@ -47,12 +38,16 @@ h4,
 .modal label,
 .btn_outline,
 .presence,
+.flexpane_file_title .member,
+.flexpane_file_title .service_link,
+.comment_body,
 .tab_complete_ui ul.type_emoji li,
 body:not(.feature_new_message_markup) .message .msg_actions,
 .light_theme .message {
     color: #CCC !important;
 }
 
+h4,
 .light_theme #message_edit_form p,
 .light_theme #message_edit_form span {
     color: #000;
@@ -69,10 +64,6 @@ a#commit_edit, /* Override link colors for lighter bg color */
     color: #03436D;
 }
 
-.emoji_rxn.user_reacted .emoji_rxn_count {
-    color: #0F7EAC;
-}
-
 #details_tab .channel_page_member_row a {
     color: #15BFFF;
     font-weight: bold;
@@ -83,18 +74,19 @@ a#commit_edit, /* Override link colors for lighter bg color */
     color: #15BFFF;
 }
 
+.comment .member,
 .indifferent_grey {
-    color: #8AAEC6 !important;
+    color: #15BFFF !important;
 }
 
-#addemoji a,
+/*#addemoji a,
 a.break_word.bold,
 #page_contents > section > p > a,
 #addemoji a:hover,
 a.break_word.bold:hover,
 #page_contents > section > p > a:hover {
     color: #89B95B;
-}
+}*/
 
 a,
 a:link,
@@ -122,29 +114,26 @@ header .header_btns a,
 .presence.active,
 #welcome_user,
 #typing_text {
-    color: #9CC754 !important;
+    color: #56B68B !important;
 }
 
 .menu_member_user_details .member_name,
 .light_theme .message .member,
 .light_theme .message_sender,
+#header_search_form.search_form .icon_search,
 /* Selected channel */
 .channels_list_holder ul li.channel.active a.channel_name .prefix,
 .channels_list_holder ul li.group.active a.group_name .prefix {
-    color: #9CC754 !important;
+    color: #439FE0 !important;
     opacity: 1;
     font-weight: bold;
 }
 
-#header_search_form.search_form .icon_search {
-    color: #9CC754;
-    opacity: 0.5;
-}
 
 #emoji_menu #emoji_preview_deluxe,
 #loading_indicator {
-    color: #9CC754;
-    text-shadow: 0 1px #045286;
+    color: #439FE0;
+    text-shadow: 0 1px #000;
 }
 
 .pinned_item,
@@ -152,8 +141,8 @@ header .header_btns a,
     color: #A3B4BF;
 }
 
-.mention_rxn .mention_rxn_summary .member_preview_link,/* {color: #BBC1C6;}*/
-.mention_rxn .mention_rxn_summary .mention_rxn_summary_members,/* {color: #BBC1C6;}*/
+.mention_rxn .mention_rxn_summary .member_preview_link,
+.mention_rxn .mention_rxn_summary .mention_rxn_summary_members,
 .plastic_row h3,
 #msg_1443828612_000397 > div.file_container.post_container.inline_collapsed > div.file_header.post_header > h4,
 rocket {
@@ -173,7 +162,7 @@ a:focus,
 .light_theme .message.sh_shared .message_content .sh_auto_msg_text,
 .light_theme .message.topic .message_content,
 .light_theme .message.unarchived .message_content {
-    color: #C8E0A1;
+    color: #56B68B;
 }
 
 body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr,
@@ -203,12 +192,12 @@ body:not(.feature_new_message_markup) .msgs_holder .unread_divider {
 #loading_welcome_author {
     color: #15BFFF;
     opacity: 0;
-    text-shadow: 0 1px #045286;
+    text-shadow: 0 1px #000;
 }
 #loading_welcome_msg {
-    color: #AED6E5;
+    color: #EEE;
     opacity: 1;
-    text-shadow: 0 1px #045286;
+    text-shadow: 0 1px #000;
 }
 
 
@@ -269,11 +258,30 @@ space header {
 
 /* Message editing */
 body:not(.feature_new_message_markup) .message.highlight {
-    background: #88c2d8;
+    background: transparent;
 }
 
 div.msg_highlighter {
-    background: #9CC754 !important;
+    background: #439FE0 !important;
+}
+
+.file_container,
+#client-ui .tab_container .file_list_item,
+.tab_container .file_list_item .actions .btn_icon,
+#client-ui .tab_container .feature_channel_details .file_list_item,
+#client-ui .tab_container .star_item .file_list_item {
+    background: #EEE !important;
+}
+
+/* Reconnecting */
+#connection_div,
+#message_edit_form.offline #message-input,
+#message_edit_form.offline #primary_file_button,
+#messages-input-container.offline #message-input,
+#messages-input-container.offline #primary_file_button,
+.inline_message_input_container.offline #message-input,
+.inline_message_input_container.offline #primary_file_button {
+    background: #FDF1C1 !important;
 }
 
 .uneditable-input,
@@ -293,31 +301,9 @@ input[type=color],
 input[type=search],
 textarea,
 .light_theme #message_edit_form textarea {
-    background: #AED6E5 !important;
+    color: #FFF;
+    background: transparent !important;
 }
-
-#connection_div {
-    background: #DFA941;
-}
-
-#client-ui .tab_container .file_list_item,
-.tab_container .file_list_item .actions .btn_icon,
-#client-ui .tab_container .feature_channel_details .file_list_item,
-#client-ui .tab_container .star_item .file_list_item {
-    background: #E2EECE !important;
-}
-
-
-/* Reconnecting */
-#message_edit_form.offline #message-input,
-#message_edit_form.offline #primary_file_button,
-#messages-input-container.offline #message-input,
-#messages-input-container.offline #primary_file_button,
-.inline_message_input_container.offline #message-input,
-.inline_message_input_container.offline #primary_file_button {
-    background: #FDF1C1 !important;
-}
-
 
 
 /* ~~~~~~~~ Color & Backgrounds ~~~~~~~~~~ */
@@ -329,7 +315,7 @@ textarea,
 .tab_complete_ui .tab_complete_ui_header {
     background: #03436D !important;
     border-color: #03436D;
-    color: #9CC754;
+    color: #439FE0;
 }
 
 #menu.flex_menu,
@@ -344,14 +330,14 @@ header,
 #channel_members_toggle .channel_members_toggle_icon,
 #channel_members_toggle {
     background: #03436D;
-    color: #9CC754;
+    color: #439FE0;
 }
 
 /* Text entry left "+" button - normal, hover, and focus */
 #primary_file_button {
     background: #03436D;
     border: 2px solid #03436D;
-    color: #AED6E5;
+    color: #FFF !important;
 }
 
 .menu_member_user_details,
@@ -378,7 +364,7 @@ header,
 #flex_contents .toolbar,
 #flex_contents .heading {
     background: #045286;
-    color: #9CC754;
+    color: #439FE0;
 }
 .tab_complete_ui {
     background: #045286;
@@ -472,19 +458,21 @@ body:not(.feature_new_message_markup) .message .mention {
 .flexpane_toggle_button#recent_mentions_toggle.active:hover,
 .flexpane_toggle_button#stars_toggle.active,
 .flexpane_toggle_button#stars_toggle.active:hover {
-    background: #9AC555;
+    background: #56B68B;
     color: #FFF !important;
 }
 
 /* Current user reacted reactions */
+.emoji_rxn.user_reacted .emoji_rxn_count,
 .emoji_rxn.user_reacted {
-    background: #AED6E5;
-    border-color: #88C2D8 !important;
+    background: #56B68B;
+    border-color: #56B68B !important;
+    color: #FFF;
 }
 
 /* Search area in title bar*/
 .search_form .search_input {
-    background: #AED6E5;
+    background: #EEE;
     border: 1px solid #1185B1;
 }
 
@@ -492,10 +480,10 @@ body:not(.feature_new_message_markup) .message .mention {
 #message_edit_form #message-input,
 #messages-input-container #message-input,
 .inline_message_input_container #message-input {
-    background: #AED6E5 !important;
+    background: #065A8F !important;
     border: 2px solid #03436D;
     border-left: none;
-    color: #3D3C40;
+    color: #CCC;
 }
 
 /* Tab titles & contents */
@@ -521,10 +509,7 @@ code {
 #flex_contents .help,
 #message_edit_form #message-input:focus,
 #messages-input-container #message-input:focus,
-.inline_message_input_container #message-input:focus {
-    border-color: #1185B1;
-}
-
+.inline_message_input_container #message-input:focus,
 #message_edit_form.focus #primary_file_button:not(:hover),
 #messages-input-container.focus #primary_file_button:not(:hover),
 .inline_message_input_container.focus #primary_file_button:not(:hover) {
@@ -533,7 +518,7 @@ code {
 
 .emoji_rxn.active,
 .emoji_rxn:hover {
-    border-color: #C8E0A1;
+    border-color: #439FE0;
 }
 
 body:not(.feature_new_message_markup) .msgs_holder .unread_divider.no_unreads hr,
@@ -544,7 +529,7 @@ body:not(.feature_new_message_markup) .msgs_holder .unread_divider hr {
 }
 
 #flex_contents .flexpane_tab_bar li.active {
-    border-color: #9CC754;
+    border-color: #439FE0;
 }
 
 table tr {
@@ -565,10 +550,10 @@ hr {
 /* ~~~~~~~ Gradients ~~~~~~~ */
 .pinned_item .pinned_message_text .pin_truncate_fade,
 .file_container.post_container:after {
-    background: -webkit-gradient(linear,left bottom,left top,color-stop(0,#045286),color-stop(1,rgba(4,32,184,0)));
-    background: -moz-linear-gradient(center bottom,#045286 0,rgba(4,32,184,0) 100%);
-    background: -ms-linear-gradient(bottom,#045286,rgba(255,255,255,0));
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(4, 32, 184, 0)', endColorstr='#045286', GradientType=0);
+    background: -webkit-gradient(linear,left bottom,left top,color-stop(0,#EEE),color-stop(1,rgba(238,238,238,0)));
+    background: -moz-linear-gradient(center bottom,#EEE 0,rgba(238,238,238,0) 100%);
+    background: -ms-linear-gradient(bottom,#EEE,rgba(238,238,238,0));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(238, 238, 238, 0)', endColorstr='#EEE', GradientType=0);
 }
 
 /* ~~~~~~~ Opacity ~~~~~~~ */
@@ -600,7 +585,7 @@ hr {
 /* Over storage limit box */
 #over_storage_limit_div,
 #over_integrations_limit_div {
-    background: #AED6E5;
+    background: #EEE;
     color: #777;
     border: 2px solid #1185B1;
 }
@@ -628,12 +613,12 @@ hr {
 
 #emoji_menu.all_emoji a.emoji_grouping_tab.active {
     background: #0E99D3;
-    border-color: #9CC754;
+    border-color: #439FE0;
 }
 
 #new_prefs_dialog .modal-nav {
-    border-color: #15BFFF;
     background: #03436D;
+    border-color: #15BFFF;
 }
 
 #new_prefs_dialog .modal-nav a {
@@ -645,7 +630,8 @@ rocket .cl.text, rocket>div>.checklist,
 .pinned_item, .file_container.post_container,
 .post_body ul.checklist {
     color: #000;
-    background-color: #AED6E5;
+    background-color: #EEE;
+    opacity: 0.7;
 }
 
 /* ===[ Filters ]=== */
@@ -660,5 +646,10 @@ pre,
 nav.top.persistent .logo {
     filter: invert(100%);
     -moz-filter: invert(100%);
-    -webkit-filter: invert(100%); }
+    -webkit-filter: invert(100%);
+}
+
+/* BIG EMOJI */
+.message span.emoji-sizer {
+    font-size: 23px
 }
