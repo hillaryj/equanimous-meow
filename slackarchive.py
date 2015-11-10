@@ -243,9 +243,8 @@ def recordHistory(dest, token):
 
 def loadPaths(path=DEFAULT_PATH, savepath=DEFAULT_SAVE_FOLDER):
     """Loads the root path and destination paths and performs path checking"""
-    # Look for token in a file in the destination folder
-    rootpath = os.path.abspath(os.path.expanduser(DEFAULT_PATH))
-    destpath = os.path.join(rootpath, DEFAULT_SAVE_FOLDER)
+    rootpath = loadRootPath(path)
+    destpath = os.path.join(rootpath, savepath)
 
     try:
         os.makedirs(destpath)
@@ -257,6 +256,11 @@ def loadPaths(path=DEFAULT_PATH, savepath=DEFAULT_SAVE_FOLDER):
         pass
 
     return rootpath, destpath
+
+def loadRootPath(path=DEFAULT_PATH):
+    rootpath = os.path.abspath(os.path.expanduser(path))
+
+    return rootpath
 
 def loadToken(rootpath):
     """Loads the user slack token in the expected path.
@@ -301,8 +305,12 @@ def loadHistoryFile(filename):
         strhist = f.read()
 
     # Turn saved python object string back into a list
-    hist = eval(strhist)
-    return hist
+    try:
+        hist = eval(strhist)
+        return hist
+    except Exception, e:
+        print "Error occurred in %s" % filename
+        raise e
 
 
 def formatHistoryList(hist, users):
@@ -474,19 +482,48 @@ def stitchHistory(dest):
 
 
 if __name__ == '__main__':
-    # TODO: Add command-line arguments to load args instead of defaults above
-    rootpath, destpath = loadPaths()
-    print "Output directory set: %s" % destpath
+    import argparse
+    parser = argparse.ArgumentParser(description='Records and manages Slack history.')
+    parser.add_argument('-t', '--token', metavar='TOKEN', type=str,
+                        dest='user_token',
+                        help='Specifies a user token to use, overrides the saved token in root path')
+    parser.add_argument('-hist', '--history-only', action='store_true',
+                        dest='historyonly',
+                        help='Perform history stitching only, no message retrieval')
+    parser.add_argument('-r', '--root-path', metavar='ROOTPATH', type=str,
+                        dest='inputroot', default=DEFAULT_PATH,
+                        help='Specifies root path for non-specified token and save folder (default: "$USER/Copy")')
+    parser.add_argument('-d', '--dest-name', metavar="SAVEFOLDER", type=str,
+                        dest='inputdest', default=DEFAULT_SAVE_FOLDER,
+                        help='Specifies save folder name inside root folder (default: "SavedHistory")')
 
-    print "Loading token"
-    user_token = loadToken(rootpath)
+    args = parser.parse_args()
+    print "Token '%s'" % args.user_token
+    print "History only", args.historyonly
+    print "Root path '%s'" % args.inputroot
+    print "Dest path '%s'" % args.inputdest
+
+    # Load paths
+    rootpath, destpath = loadPaths(args.inputroot, args.inputdest)
+    print "Output directory set: '%s'" % destpath
+
+    if not args.historyonly:
+        if args.user_token is not None:
+            user_token = args.user_token
+        else:
+            user_token = loadToken(rootpath)
+        print "User token: '%s'" % user_token
 
     # TODO: Add command-line flags to perform each action separately
-    if user_token is not None:
-        print "Making history..."
-        recordHistory(destpath, token=user_token)
-        print "Recording user list..."
-        recordUsers(destpath, token=user_token)
-        # TODO: History stitching probably doesn't require user_token and can be moved out of this if statement
-        print "Stitching history..."
-        stitchHistory(destpath)
+    if not args.historyonly:
+        if user_token is None:
+            print "User token is None"
+        else:
+            print "Making history..."
+            recordHistory(destpath, token=user_token)
+            print "Recording user list..."
+            recordUsers(destpath, token=user_token)
+
+    print "Stitching history..."
+    stitchHistory(destpath)
+    print "Complete!"
