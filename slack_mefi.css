@@ -229,6 +229,7 @@ a.plastic_row:hover,
 #col_channels_bg,
 #loading_team_menu_bg,
 #loading_user_menu_bg,
+#emoji_menu #emoji_menu_header,
 a.plastic_row,
 #details_tab .channel_page_section {
     background: #045286;
@@ -340,6 +341,7 @@ header,
     color: #FFF !important;
 }
 
+#fs_modal,
 .menu_member_user_details,
 #menu_header .menu_simple_header,
 #dms_filter,
@@ -652,4 +654,8 @@ nav.top.persistent .logo {
 /* BIG EMOJI */
 .message span.emoji-sizer {
     font-size: 23px
+}
+
+.CodeMirror {
+    color: #CCC;
 }
