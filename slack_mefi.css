@@ -117,6 +117,7 @@ header .header_btns a,
     color: #56B68B !important;
 }
 
+.light_theme ts-message .message_content .member,
 .menu_member_user_details .member_name,
 .light_theme .message .member,
 .light_theme .message_sender,
@@ -264,6 +265,11 @@ body:not(.feature_new_message_markup) .message.highlight {
 
 div.msg_highlighter {
     background: #439FE0 !important;
+}
+
+ts-message.active:not(.standalone):not(.multi_delete_mode):not(.highlight),
+ts-message:hover:not(.standalone):not(.multi_delete_mode):not(.highlight) {
+    background: #045286;
 }
 
 .file_container,
