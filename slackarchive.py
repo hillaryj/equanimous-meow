@@ -45,6 +45,22 @@ true = True
 false = False
 null = None
 
+# Readability searches
+# TODO: This is a hack for parsing unicode characters into readable excerpts
+READABILITY_REPL = {'\n\n': '\n',
+                    '&lt;': '<',
+                    '&gt;': '>',
+                    '\u2014': '-',
+                    '\u2019': "'",
+                    '\u201c': '"',
+                    '\u201d': '"',
+                    '\u2026': '...',
+                    '\u00a0': ' ',
+                    '\u2018': "'",
+                    '\u2019': "'",
+                    # '': '',
+                    }
+
 # User related globals
 USERS_FILENAME = "users.txt"
 USE_USERNAME = "name"
@@ -53,6 +69,8 @@ BOTS_LIST = ['USLACKBOT']
 
 # History Stitching
 OVERALL_HISTORY_FILENAME = "_history.txt"
+EXCERPT_FILENAME = "_excerpt.txt"
+IGNORE_FILE_LIST = [OVERALL_HISTORY_FILENAME, EXCERPT_FILENAME]
 
 ## Slack URLs
 # Channel List:
@@ -403,8 +421,8 @@ def parseChannelHistoryFiles(chdir, users,
 
     # Parse each history file
     for hfile in filelist:
-        # We've already dealt with the concatenated file, so ignore
-        if hfile == OVERALL_HISTORY_FILENAME:
+        # Use the IGNORE_FILE_LIST to ignore history and excerpt files, etc.
+        if hfile in IGNORE_FILE_LIST:
             continue
 
         # Do the rest of the parsing
@@ -464,6 +482,83 @@ def stitchHistory(dest):
 
     # Ta da!
     print "History stitching complete!"
+
+
+def makeExcerpt(channel, dest, token, tstart=0, tstop=-1, outfile=EXCERPT_FILENAME):
+    """
+    Creates a readable excerpt of a history file from the given start time
+    to the stop time. Does not include reactji. The output generated looks
+    like a chat transcript for easy reading.
+
+    Inputs:
+    - channel: the channel name or ID to excerpt from
+    - dest: destination directory (generally top-level History folder)
+    - token: Slack token
+    + tstart: time to start excerpt (default 0 - the beginning of time)
+    + tstop: time to stop excerpt (default -1 - present)
+    + outfile: optional filename (default EXCERPT_FILENAME global)
+        NOTE: If outfile is used, put it in another dest folder or the
+        history stitching will object to invalid formatting
+    """
+    # TODO: Make history stitching ignore invalid files
+    # Sanity checking
+    channels = getChannels(token=token)
+    if channel in channels:
+        # Have a channel ID not name
+        chname = channels[channel]
+    elif channel in channels.values():
+        # Have a channel name
+        chname = channel
+    else:
+        print "Selected channel '%s' not found in channel list" % channel
+
+    print "Selected channel '%s'" % channel
+
+    # Load infile history
+    fname = os.path.join(dest, chname, OVERALL_HISTORY_FILENAME)
+    chhist = loadHistoryFile(fname)
+    if len(chhist) == 0:
+        raise IOError("Specified file does not exist or is empty: %s" % fname)
+
+    # Find index for tstart and tstop
+    kk = 0
+    if tstart != 0:
+        while chhist[kk]['ts'] < tstart:
+            kk += 1
+
+    if tstop == -1:
+        jj = len(chhist) - 1
+    else:
+        jj = kk
+        while chhist[jj]['ts'] < tstop:
+            jj += 1
+
+    print "Found indices: %s -> %s" % (kk, jj)
+
+    # Extract info
+    output = []
+    for idx in range(kk, jj+1):
+        # TODO: Select between display name and other name field?
+        strip_dict = {'name': chhist[idx]['name'], 'text': chhist[idx]['text']}
+        output.append(strip_dict)
+
+    # Make readable
+    outstr = "\n".join(["%s: %s" % (m['name'], m['text'])
+                        for m in output])
+    # Turn channel IDs into channel names
+    for chid in channels:
+        outstr = outstr.replace(chid, channels[chid])
+    for key in READABILITY_REPL:
+        outstr = outstr.replace(key, READABILITY_REPL[key])
+
+    # Remove escape chars and lt, gt, apostrophes, etc.
+    # Write to output file
+    outfname = os.path.join(dest, chname, outfile)
+    with open(outfname, 'w') as f:
+        f.write(outstr)
+    print "Created excerpt file at '%s'" % outfname
+
+    return outstr
 
 
 ###########################################################
