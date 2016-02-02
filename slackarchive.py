@@ -585,6 +585,9 @@ if __name__ == '__main__':
     parser.add_argument('-hist', '--history-only', action='store_true',
                         dest='historyonly',
                         help='Perform history stitching only, no message retrieval')
+    parser.add_argument('-arch', '--archive-only', action='store_true',
+                        dest='archiveonly',
+                        help='Perform message retrieval/archiving only, skip history stitching')
     parser.add_argument('-r', '--root-path', metavar='ROOTPATH', type=str,
                         dest='inputroot', default=DEFAULT_PATH,
                         help='Specifies root path for non-specified token and save folder (default: "$USER/Copy")')
@@ -594,7 +597,8 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     print "Token '%s'" % args.user_token
-    print "History only", args.historyonly
+    print "Archive only?", args.archiveonly
+    print "History only?", args.historyonly
     print "Root path '%s'" % args.inputroot
     print "Dest path '%s'" % args.inputdest
 
@@ -619,6 +623,8 @@ if __name__ == '__main__':
             print "Recording user list..."
             recordUsers(destpath, token=user_token)
 
-    print "Stitching history..."
-    stitchHistory(destpath)
+    if not args.archiveonly:
+        print "Stitching history..."
+        stitchHistory(destpath)
+
     print "Complete!"
