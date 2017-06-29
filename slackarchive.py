@@ -27,7 +27,7 @@ __status__ = "Development"
 
 
 # Default save folder if another folder is not specified
-DEFAULT_PATH = "~/Copy"
+DEFAULT_PATH = "~"
 DEFAULT_SAVE_FOLDER = "SavedHistory"
 # A 'token.txt' file with Slack API token is expected
 # to be located in the root save directory
