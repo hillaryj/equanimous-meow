@@ -591,7 +591,7 @@ if __name__ == '__main__':
                         help='Perform message retrieval/archiving only, skip history stitching')
     parser.add_argument('-r', '--root-path', metavar='ROOTPATH', type=str,
                         dest='inputroot', default=DEFAULT_PATH,
-                        help='Specifies root path for non-specified token and save folder (default: "$USER/Copy")')
+                        help='Specifies root path for non-specified token and save folder (default: "$USER/" or "~")')
     parser.add_argument('-d', '--dest-name', metavar="SAVEFOLDER", type=str,
                         dest='inputdest', default=DEFAULT_SAVE_FOLDER,
                         help='Specifies save folder name inside root folder (default: "SavedHistory")')
