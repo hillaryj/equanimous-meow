@@ -4,7 +4,7 @@ Retrieves Slack history and saves it.
 
 Other future plans:
 * Better JSON parsing and output formatting
-* Command-line arguments and non-hardcoded paths
+* Additional command-line arguments for more customizable saving structures without editing code
 """
 
 # Python library imports
