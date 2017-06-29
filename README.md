@@ -6,7 +6,7 @@ This repository contains several scripts and other resources for Slack.
 
 A token is necessary to be able to use the Slack API. Generate a Slack token at: https://api.slack.com/web
 
-# slack_archive.py
+# slackarchive.py
 
 This is an archiving tool for Slack that archives all public channels.
 
@@ -33,7 +33,7 @@ Default path is: `$USER/SavedHistory/slacktoken.txt` or `~/SavedHistory/slacktok
 
 Run the script with any options as below
 
-`python slack_archive.py <arguments>`
+`python slackarchive.py <arguments>`
 
 ### Arguments
 
@@ -61,7 +61,7 @@ Specifies a name for the save folder at the root path. Default is `SavedHistory`
 
 Currently, this is not available from the command line, only by importing the script and running it inside a shell.
 
-    from slack_archive import makeExcerpt
+    from slackarchive import makeExcerpt
     makeExcerpt(channel, dest, token, tstart=0, tstop=-1, outfile=EXCERPT_FILENAME)
 
 Creates a readable excerpt of a history file from the given start time to the stop time. Does not include reactji. The output generated looks like a chat transcript for easy reading.
