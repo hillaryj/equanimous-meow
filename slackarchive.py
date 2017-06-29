@@ -30,7 +30,8 @@ __status__ = "Development"
 DEFAULT_PATH = "~"
 DEFAULT_SAVE_FOLDER = "SavedHistory"
 # A 'token.txt' file with Slack API token is expected
-# to be located in the root save directory
+# to be located in the root save folder
+# i.e at "DEFAULT_PATH/DEFAULT_SAVE_FOLDER/TOKEN_FILENAME"
 # Generate token at: https://api.slack.com/web
 TOKEN_FILENAME = "slacktoken.txt"
 # Date format for output file name
