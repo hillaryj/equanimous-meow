@@ -36,8 +36,6 @@ DEFAULT_SAVE_FOLDER = "SavedHistory"
 TOKEN_FILENAME = "slacktoken.txt"
 # Date format for output file name
 DATE_FORMAT = "%Y%m%d_%H%M"
-# Output file format is "CHAN/DATE_FORMAT_CHAN.txt"
-OUTFILE = "%s_%s.txt"
 # Saves messages in retrieved or timeline order
 PRESERVE_OLDEST_FIRST = True
 
@@ -190,10 +188,10 @@ def lookupUserID(uid, users, nametype=USE_USERNAME):
     """Retrieves the user name for the specific user ID"""
     if uid not in users:
         if uid not in BOTS_LIST:
-            print "User ID not found: '%s'" % uid
+            print("User ID not found: '{}'".format(uid))
         return uid
 
-    # print "User lookup: %s -> %s" % (uid, users[uid])
+    # print("User lookup: {} -> {}".format(uid, users[uid]))
 
     return users[uid][nametype]
 
@@ -203,11 +201,11 @@ def recordUsers(dest, token):
     # Get the list of users & save it (overwrite previous)
     users = getUserDict(token)
     outputfile = os.path.join(dest, "users.txt")
-    print "Retrieved %d users; saving to %s" % (len(users), outputfile)
+    print("Retrieved {:d} users; saving to {}".format(len(users), outputfile))
     saveFile(outputfile, pformat(users))
 
     # Ta da!
-    print "User list retrieval complete!"
+    print("User list retrieval complete!")
 
 
 def loadUsersFromFile(dest):
@@ -228,36 +226,36 @@ def recordHistory(dest, token):
     """Records channel history as a JSON text object in the specified destination folder"""
     # Make sure destination folders exist - parse dest folder
     curtime = datetime.now().strftime(DATE_FORMAT)
-    print "Run starting: %s" % curtime
+    print("Run starting: {}".format(curtime))
 
     # Get the list of channels
     channels = getChannels(token=token)
-    print "Retrieved %d channels" % len(channels)
+    print("Retrieved {:d} channels".format(len(channels)))
 
     # For each channel, get history and dump into a text file (append if exist)
     for chanid in channels:
         chname = channels[chanid]
-        print "Retrieving channel #%s [%s]" % (chname, chanid)
+        print("Retrieving channel #{} [{}]".format(chname, chanid))
         hist = getChannelHistory(chanid=chanid, token=token)
 
         if len(hist) == 0:
             # Don't bother doing anything for an empty file
-            print "Channel #%s history is empty, skipping" % chname
+            print("Channel #{} history is empty, skipping".format(chname))
             continue
 
         # Create a folder with the friendly channel name
         # Save name format is: CHANNELNAME/DATEOFSAVE_CHANNELNAME.txt
         chdir = os.path.join(dest, chname)
         if not os.path.exists(chdir):
-            # print "Creating directory: %s" % chdir
+            # print("Creating directory: {}".format(chdir))
             os.mkdir(chdir)
-        outputfile = os.path.join(chdir, "%s_%s.txt"%(curtime, chname))
-        print "Saving %d messages in history to: %s" % (len(hist), outputfile)
+        outputfile = os.path.join(chdir, "{}_{}.txt".format(curtime, chname))
+        print("Saving {:d} messages in history to: {}".format(len(hist), outputfile))
 
         saveFile(outputfile, prepForFileOutput(hist))
 
     # Ta da!
-    print "History retrieval complete!"
+    print("History retrieval complete!")
 
 
 def loadPaths(path=DEFAULT_PATH, savepath=DEFAULT_SAVE_FOLDER):
@@ -286,8 +284,8 @@ def loadToken(rootpath):
     Generate Slack API token at: https://api.slack.com/web"""
     tokenpath = os.path.join(rootpath, TOKEN_FILENAME)
     if not os.path.exists(tokenpath):
-        print "Expected to find token file at: %s" % tokenpath
-        print "Generate Slack API token at: https://api.slack.com/web"
+        print("Expected to find token file at: {}".format(tokenpath))
+        print("Generate Slack API token at: https://api.slack.com/web")
         return None
     else:
         with open(tokenpath, 'r') as f:
@@ -317,7 +315,7 @@ def loadHistoryFile(filename):
     if not os.path.exists(filename):
         return []
     if os.path.isdir(filename):
-        raise IOError("loadHistoryFile: Specified file is actually a directory '%s'" % (filename))
+        raise IOError("loadHistoryFile: Specified file is actually a directory '{}'".format(filename))
 
     # Load history file
     with open(filename, 'r') as f:
@@ -328,7 +326,7 @@ def loadHistoryFile(filename):
         hist = eval(strhist)
         return hist
     except Exception, e:
-        print "Error occurred in %s" % filename
+        print("Error occurred in {}".format(filename))
         raise e
 
 
@@ -380,6 +378,7 @@ def saveFile(filename, content, writemode='w'):
     Optional parameter writemode (default 'w')"""
     with open(filename, writemode) as f:
         f.write(content)
+
     return True
 
 
@@ -404,7 +403,7 @@ def parseChannelHistoryFiles(chdir, users,
 
     # Get a list of files in the channel directory
     if not os.path.isdir(chdir):
-        print "Error: '%s' is not a directory" % chdir
+        print("Error: '{}' is not a directory".format(chdir))
         return history
 
     filelist = os.listdir(chdir)
@@ -431,7 +430,7 @@ def parseChannelHistoryFiles(chdir, users,
         # Deal with subdirectories
         if os.path.isdir(hfn):
             if ignore_subdirs:
-                print "Ignoring subdirectory %s" % hfile
+                print("Ignoring subdirectory {}".format(hfile))
                 continue
             else:
                 raise NotImplementedError("Parsing subdirectories is currently NOT IMPLEMENTED")
@@ -454,7 +453,7 @@ def parseChannelHistoryFiles(chdir, users,
 
     # Turn history dict back into a list
     overall_history = [histdict[key]
-                       for key in sorted(histdict.iterkeys())]
+                       for key in sorted(histdict)]
 
     # Save the concatenated file if not empty
     if save_overall_history and len(histdict) > 0:
@@ -473,16 +472,16 @@ def stitchHistory(dest):
     destlist = [os.path.join(dest,entry)
                 for entry in os.listdir(dest)
                 if os.path.isdir(os.path.join(dest,entry))]
-    print "Retrieved %d channels" % len(destlist)
+    print("Retrieved {:d} channels".format(len(destlist)))
 
     users = loadUsersFromFile(dest)
 
     for chdir in destlist:
-        print "Stitching channel %s" % chdir
+        print("Stitching channel {}".format(chdir))
         chhist = parseChannelHistoryFiles(chdir, users, save_overall_history = True, force_refresh = True)
 
     # Ta da!
-    print "History stitching complete!"
+    print("History stitching complete!")
 
 
 def makeExcerpt(channel, dest, token, tstart=0, tstop=-1, outfile=EXCERPT_FILENAME):
@@ -511,15 +510,15 @@ def makeExcerpt(channel, dest, token, tstart=0, tstop=-1, outfile=EXCERPT_FILENA
         # Have a channel name
         chname = channel
     else:
-        print "Selected channel '%s' not found in channel list" % channel
+        print("Selected channel '{}' not found in channel list".format(channel))
 
-    print "Selected channel '%s'" % channel
+    print("Selected channel '{}'".format(channel))
 
     # Load infile history
     fname = os.path.join(dest, chname, OVERALL_HISTORY_FILENAME)
     chhist = loadHistoryFile(fname)
     if len(chhist) == 0:
-        raise IOError("Specified file does not exist or is empty: %s" % fname)
+        raise IOError("Specified file does not exist or is empty: {}".format(fname))
 
     # Find index for tstart and tstop
     kk = 0
@@ -534,7 +533,7 @@ def makeExcerpt(channel, dest, token, tstart=0, tstop=-1, outfile=EXCERPT_FILENA
         while chhist[jj]['ts'] < tstop:
             jj += 1
 
-    print "Found indices: %s -> %s" % (kk, jj)
+    print("Found indices: {} -> {}".format(kk, jj))
 
     # Extract info
     output = []
@@ -544,7 +543,7 @@ def makeExcerpt(channel, dest, token, tstart=0, tstop=-1, outfile=EXCERPT_FILENA
         output.append(strip_dict)
 
     # Make readable
-    outstr = "\n".join(["%s: %s" % (m['name'], m['text'])
+    outstr = "\n".join(["{}: {}".format(m['name'], m['text'])
                         for m in output])
     # Turn channel IDs into channel names
     for chid in channels:
@@ -557,7 +556,7 @@ def makeExcerpt(channel, dest, token, tstart=0, tstop=-1, outfile=EXCERPT_FILENA
     outfname = os.path.join(dest, chname, outfile)
     with open(outfname, 'w') as f:
         f.write(outstr)
-    print "Created excerpt file at '%s'" % outfname
+    print("Created excerpt file at '{}'".format(outfname))
 
     return outstr
 
@@ -597,35 +596,37 @@ if __name__ == '__main__':
                         help='Specifies save folder name inside root folder (default: "SavedHistory")')
 
     args = parser.parse_args()
-    print "Token '%s'" % args.user_token
-    print "Archive only?", args.archiveonly
-    print "History only?", args.historyonly
-    print "Root path '%s'" % args.inputroot
-    print "Dest path '%s'" % args.inputdest
+    # print("Token '{}'".format(args.user_token))
+    # print("Archive only?", args.archiveonly)
+    # print("History only?", args.historyonly)
+    # print("Root path '{}'".format(args.inputroot))
+    # print("Dest path '{}'".format(args.inputdest))
 
     # Load paths
     rootpath, destpath = loadPaths(args.inputroot, args.inputdest)
-    print "Output directory set: '%s'" % destpath
+    print("Output directory set: '{}'".format(destpath))
 
+    # Load token if performing any operation involving the Slack API
     if not args.historyonly:
         if args.user_token is not None:
             user_token = args.user_token
         else:
             user_token = loadToken(rootpath)
-        print "User token: '%s'" % user_token
+        print{"User token: '{}'".format(user_token))
 
-    # TODO: Add command-line flags to perform each action separately
+    # TODO: Add command-line flags to perform history and user list separately
     if not args.historyonly:
         if user_token is None:
-            print "User token is None"
+            print("User token is None")
         else:
-            print "Making history..."
+            print("Making history...")
             recordHistory(destpath, token=user_token)
-            print "Recording user list..."
+            print("Recording user list...")
             recordUsers(destpath, token=user_token)
 
+    # Stitch history with the rest of the files
     if not args.archiveonly:
-        print "Stitching history..."
+        print("Stitching history...")
         stitchHistory(destpath)
 
-    print "Complete!"
+    print("Complete!")
