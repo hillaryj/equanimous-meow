@@ -612,7 +612,7 @@ if __name__ == '__main__':
             user_token = args.user_token
         else:
             user_token = loadToken(rootpath)
-        print{"User token: '{}'".format(user_token))
+        print("User token: '{}'".format(user_token))
 
     # TODO: Add command-line flags to perform history and user list separately
     if not args.historyonly:
