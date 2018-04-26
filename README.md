@@ -1,10 +1,10 @@
 # equanimous-meow
 
-This repository contains several scripts and other resources for Slack.
+This repository contains several scripts and other resources for Slack, as described below.
+
+[![Known Vulnerabilities](https://snyk.io/test/github/hillaryj/equanimous-meow/badge.svg)](https://snyk.io/test/github/hillaryj/equanimous-meow)
 
 ## Slack API token
-
-A token is necessary to be able to use the Slack API. Generate a Slack token at: https://api.slack.com/web
 
 # slackarchive.py
 
@@ -14,7 +14,14 @@ This is an archiving tool for Slack that archives all public channels.
 
 This script is also able to make time-bounded excerpts of specific channels in human-readable text form (without reactji).
 
+## Installation steps
+
+1. Clone the repository locally
+1. Generate a Slack API token for Slack you want to archive, if it doesn't already exist (below)
+
 ## Slack API token
+
+A token is necessary to be able to use the Slack API.
 
 Generate a Slack token at: https://api.slack.com/web
 
@@ -23,11 +30,6 @@ Without a command-line argument, a `token.txt` file with a Slack API token strin
 `DEFAULT_PATH/DEFAULT_SAVE_FOLDER/TOKEN_FILENAME`
 
 Default path is: `$USER/SavedHistory/slacktoken.txt` or `~/SavedHistory/slacktoken.txt`
-
-## Installation steps
-
-1. Clone the repository locally
-1. Verify that a Slack token exists or generate it for the Slack you want to archive
 
 ## How to run
 
