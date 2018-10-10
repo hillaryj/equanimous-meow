@@ -11,9 +11,7 @@ Other future plans:
 import requests
 import os
 from datetime import datetime
-import time
 from pprint import pprint, pformat
-import logging
 
 
 __author__ = "Hillary Jeffrey"
@@ -50,13 +48,12 @@ READABILITY_REPL = {'\n\n': '\n',
                     '&lt;': '<',
                     '&gt;': '>',
                     '\u2014': '-',
+                    '\u2018': "'",
                     '\u2019': "'",
                     '\u201c': '"',
                     '\u201d': '"',
                     '\u2026': '...',
                     '\u00a0': ' ',
-                    '\u2018': "'",
-                    '\u2019': "'",
                     # '': '',
                     }
 
@@ -102,7 +99,7 @@ def getRequest(geturl, getparams):
     # eval() is really NOT the right way to do this
     try:
         ret_dict = eval(req.text)
-    except Exception, e:
+    except Exception as e:
         pprint(req)
         raise e
 
@@ -265,11 +262,9 @@ def loadPaths(path=DEFAULT_PATH, savepath=DEFAULT_SAVE_FOLDER):
 
     try:
         os.makedirs(destpath)
-    except:
-        # Exception occurs when attempting to makedirs that exist
+    except OSError:
+        # OSError occurs when attempting to makedirs that exist
         # Ignore this exception
-        # TODO: Parse for specific exception type so we don't ignore
-        # unexpected exceptions
         pass
 
     return rootpath, destpath
@@ -325,7 +320,7 @@ def loadHistoryFile(filename):
     try:
         hist = eval(strhist)
         return hist
-    except Exception, e:
+    except Exception as e:
         print("Error occurred in {}".format(filename))
         raise e
 
@@ -382,10 +377,11 @@ def saveFile(filename, content, writemode='w'):
     return True
 
 
-def parseChannelHistoryFiles(chdir, users,
-                             save_overall_history = True,
-                             force_refresh = True,
-                             ignore_subdirs = True):
+def parseChannelHistoryFiles(chdir,
+                             users,
+                             save_overall_history=True,
+                             force_refresh=True,
+                             ignore_subdirs=True):
     """Parses all files inside a specified directory and builds the
     stitched history file. Parses through each file to prevent duplicate
     entries from history files that overlap, as well as adding user names
@@ -434,7 +430,7 @@ def parseChannelHistoryFiles(chdir, users,
                 continue
             else:
                 raise NotImplementedError("Parsing subdirectories is currently NOT IMPLEMENTED")
-                continue
+
         htmp = loadHistoryFile(hfn)
 
         # Wait to perform the formatting to save processing
@@ -478,7 +474,7 @@ def stitchHistory(dest):
 
     for chdir in destlist:
         print("Stitching channel {}".format(chdir))
-        chhist = parseChannelHistoryFiles(chdir, users, save_overall_history = True, force_refresh = True)
+        parseChannelHistoryFiles(chdir, users, save_overall_history = True, force_refresh = True)
 
     # Ta da!
     print("History stitching complete!")

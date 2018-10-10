@@ -10,10 +10,7 @@ Other future plans:
 # Python library imports
 import requests
 import os
-from datetime import datetime
-import time
 from pprint import pprint, pformat
-import logging
 
 
 __author__ = "Hillary Jeffrey"
@@ -45,13 +42,12 @@ READABILITY_REPL = {'\n\n': '\n',
                     '&lt;': '<',
                     '&gt;': '>',
                     '\u2014': '-',
+                    '\u2018': "'",
                     '\u2019': "'",
                     '\u201c': '"',
                     '\u201d': '"',
                     '\u2026': '...',
                     '\u00a0': ' ',
-                    '\u2018': "'",
-                    '\u2019': "'",
                     # '': '',
                     }
 
@@ -94,7 +90,7 @@ def getRequest(geturl, getparams):
     # eval() is really NOT the right way to do this
     try:
         ret_dict = eval(req.text)
-    except Exception, e:
+    except Exception as e:
         pprint(req)
         raise e
 
@@ -134,7 +130,7 @@ def getChannelInfo(token, chanid):
 
     # TODO: Add error handling for when requests go wrong
     if chan_dict["ok"]:
-        return chan_dict["channel"]["is_member"], chan_dict["channel"]["name"] chan_dict["channel"]["members"]
+        return chan_dict["channel"]["is_member"], chan_dict["channel"]["name"], chan_dict["channel"]["members"]
     else:
         return -1, "", []
 
