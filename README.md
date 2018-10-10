@@ -1,12 +1,21 @@
 # equanimous-meow [![Known Vulnerabilities](https://snyk.io/test/github/hillaryj/equanimous-meow/badge.svg)](https://snyk.io/test/github/hillaryj/equanimous-meow)
 
-This repository contains several scripts and other resources for Slack, as described below.
+This repository contains several scripts and other resources for Slack.
 
-## Slack API token
+**Quick jump:**
 
-# slackarchive.py
+- [Slack archive tool: `slackarchive.py`](#slack-archive-tool)
+    - [Installation steps](#installation-steps)
+    - [Slack API token](#slack-api-token)
+    - [How to run](#how-to-run)
+        - [Arguments](#arguments)
+    - [Making excerpts](#making-excerpts)
+        - [Inputs](#inputs)
+    - [Expansion ideas](#expansion-ideas) 
 
-This is an archiving tool for Slack that archives all public channels.
+# Slack archive tool
+
+`slackarchive.py` is a Python2-based archiving tool for Slack that archives all public channel content.
 
 *History-stitching* is a feature of this script. Stitching is performed by taking multiple possibly-overlapping history dumps from Slack and organizing them into one continuous history file. This process includes any prior continuous history file as a starting point.
 
@@ -82,7 +91,7 @@ Optional:
 
 NOTE: If `outfile` is used, put it in another dest folder or future history stitching will object to invalid formatting
 
-## Future expansion
+## Expansion ideas
 
 * Better JSON parsing and output formatting
 * Additional command-line arguments for more customizable saving structures without editing code
