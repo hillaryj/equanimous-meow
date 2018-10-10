@@ -1,8 +1,6 @@
-# equanimous-meow
+# equanimous-meow [![Known Vulnerabilities](https://snyk.io/test/github/hillaryj/equanimous-meow/badge.svg)](https://snyk.io/test/github/hillaryj/equanimous-meow)
 
 This repository contains several scripts and other resources for Slack, as described below.
-
-[![Known Vulnerabilities](https://snyk.io/test/github/hillaryj/equanimous-meow/badge.svg)](https://snyk.io/test/github/hillaryj/equanimous-meow)
 
 ## Slack API token
 
