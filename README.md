@@ -46,25 +46,16 @@ Run the script with any options as below
 
 ### Arguments
 
-`-t <token>`, `--token <token>`
-
-Specify a (text) user token, overrides any saved token in root path
-
-`-hist`, `--history-only`
-
-Perform history-stitching only, no message retrieval. This can be done offline as it only uses local files.
-
-`-arch`, `--archive-only`
-
-Perform message retrieval/archiving only, skip history stitching. 
-
-`-r <path>`, `--root-path <path>`
-
-Specifies root path for non-specified token and save folder. Default is user home directory; `$USER/` or `~` depending on operating system.
-
-`-d <foldername>`, `--dest-name <foldername>`
-
-Specifies a name for the save folder at the root path. Default is `SavedHistory`.
+- `-t <token>`, `--token <token>`
+    - Specify a (text) user token, overrides any saved token in root path
+- `-hist`, `--history-only`
+    - Perform history-stitching only, no message retrieval. This can be done offline as it only uses local files.
+- `-arch`, `--archive-only`
+    - Perform message retrieval/archiving only, skip history stitching. 
+- `-r <path>`, `--root-path <path>`
+    - Specifies root path for non-specified token and save folder. Default is user home directory; `$USER/` or `~` depending on operating system.
+- `-d <foldername>`, `--dest-name <foldername>`
+    - Specifies a name for the save folder at the root path. Default is `SavedHistory`.
 
 ## Making excerpts
 
