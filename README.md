@@ -1,5 +1,4 @@
-# equanimous-meow
-[![Known Vulnerabilities](https://snyk.io//test/github/hillaryj/equanimous-meow/badge.svg?targetFile=requirements.txt)](https://snyk.io//test/github/hillaryj/equanimous-meow?targetFile=requirements.txt)
+# equanimous-meow [![Known Vulnerabilities](https://snyk.io//test/github/hillaryj/equanimous-meow/badge.svg?targetFile=requirements.txt)](https://snyk.io//test/github/hillaryj/equanimous-meow?targetFile=requirements.txt)
 
 Contains several scripts and other resources for Slack.
 
