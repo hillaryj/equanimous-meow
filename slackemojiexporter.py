@@ -46,13 +46,15 @@ list_url = "https://slack.com/api/emoji.list"
 # token
 
 # User agent
-HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
+}
 SLEEP_TIME = 0.1
 
 # Set up logging
 LOG_LEVEL = logging.INFO
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=LOG_LEVEL, format='%(levelname)s - %(message)s')
+logging.basicConfig(level=LOG_LEVEL, format="%(levelname)s - %(message)s")
 
 
 def getRequest(geturl, getparams):
@@ -113,28 +115,20 @@ def getImg(imgurl, dest=DEFAULT_SAVE_PATH):
         # Get image name
         logging.debug(
             "Determining attachment name from {}".format(
-                r.headers['content-disposition']
+                r.headers["content-disposition"]
             )
         )
-        filename = r.headers['content-disposition'].replace(
-            'attachment; filename=',
-            ''
-            )
+        filename = r.headers["content-disposition"].replace("attachment; filename=", "")
         logging.debug("Filename: '{}'".format(filename))
 
         # Save image
         destfile = os.path.join(dest, filename)
         logging.debug("{}: Writing to file".format(filename))
-        with open(destfile, 'wb') as f:
+        with open(destfile, "wb") as f:
             f.write(r.content)
 
     else:
-        logging.warn(
-            "{}: status not ok - {}".format(
-                r.status_code,
-                imgurl
-            )
-        )
+        logging.warn("{}: status not ok - {}".format(r.status_code, imgurl))
         return r.status_code
 
 
@@ -237,43 +231,55 @@ def loadTokenFromFile(tokendir):
     tokenpath = os.path.join(tokendir, TOKEN_FILENAME)
     if not os.path.exists(tokenpath):
         logging.error(
-                "Expected to find token file at: {}\n".format(tokenpath) +
-                "Generate Slack API token at: https://api.slack.com/web"
-            )
+            "Expected to find token file at: {}\n".format(tokenpath)
+            + "Generate Slack API token at: https://api.slack.com/web"
+        )
         return None
     else:
-        with open(tokenpath, 'r') as f:
+        with open(tokenpath, "r") as f:
             user_token = f.read()
 
     return user_token
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(
-        description='Records and manages Slack history.'
+
+    parser = argparse.ArgumentParser(description="Records and manages Slack history.")
+    parser.add_argument(
+        "-t",
+        "--token",
+        metavar="TOKEN",
+        type=str,
+        dest="user_token",
+        help="Specify a user token, overrides saved token in root path",
     )
     parser.add_argument(
-        '-t', '--token', metavar='TOKEN', type=str,
-        dest='user_token',
-        help='Specify a user token, overrides saved token in root path'
-    )
-    parser.add_argument(
-        '-r', '--root-path', metavar='ROOTPATH', type=str,
-        dest='inputroot', default=DEFAULT_PATH,
+        "-r",
+        "--root-path",
+        metavar="ROOTPATH",
+        type=str,
+        dest="inputroot",
+        default=DEFAULT_PATH,
         help='Specifies root path for Slack token and save folder " + \
-        "(default: "$USER/" or "~")'
+        "(default: "$USER/" or "~")',
     )
     parser.add_argument(
-        '-d', '--dest-name', metavar="SAVEFOLDER", type=str,
-        dest='inputdest', default=DEFAULT_SAVE_FOLDER,
+        "-d",
+        "--dest-name",
+        metavar="SAVEFOLDER",
+        type=str,
+        dest="inputdest",
+        default=DEFAULT_SAVE_FOLDER,
         help='Specifies save folder name inside root folder " + \
-        "(default: "emoji")'
+        "(default: "emoji")',
     )
     parser.add_argument(
-        '-l', '--list-only', action='store_true',
-        dest='listonly',
-        help='Retrieve and list emoji, no image saving'
+        "-l",
+        "--list-only",
+        action="store_true",
+        dest="listonly",
+        help="Retrieve and list emoji, no image saving",
     )
 
     args = parser.parse_args()

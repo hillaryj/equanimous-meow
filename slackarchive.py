@@ -44,24 +44,25 @@ null = None
 
 # Readability searches
 # TODO: This is a hack for parsing unicode characters into readable excerpts
-READABILITY_REPL = {'\n\n': '\n',
-                    '&lt;': '<',
-                    '&gt;': '>',
-                    '\u2014': '-',
-                    '\u2018': "'",
-                    '\u2019': "'",
-                    '\u201c': '"',
-                    '\u201d': '"',
-                    '\u2026': '...',
-                    '\u00a0': ' ',
-                    # '': '',
-                    }
+READABILITY_REPL = {
+    "\n\n": "\n",
+    "&lt;": "<",
+    "&gt;": ">",
+    "\u2014": "-",
+    "\u2018": "'",
+    "\u2019": "'",
+    "\u201c": '"',
+    "\u201d": '"',
+    "\u2026": "...",
+    "\u00a0": " ",
+    # '': '',
+}
 
 # User related globals
 USERS_FILENAME = "users.txt"
 USE_USERNAME = "name"
 USE_REALNAME = "real_name"
-BOTS_LIST = ['USLACKBOT']
+BOTS_LIST = ["USLACKBOT"]
 
 # History Stitching
 OVERALL_HISTORY_FILENAME = "_history.txt"
@@ -137,12 +138,10 @@ def getChannels(token):
     return channel_list
 
 
-def getChannelHistory(chanid, token, latest = 0):
+def getChannelHistory(chanid, token, latest=0):
     """For a given channel ID, returns a string JSON object of channel history and time period"""
 
-    ch_payload = {"token": token,
-                  "channel": chanid,
-                  "latest": latest}
+    ch_payload = {"token": token, "channel": chanid, "latest": latest}
     chan_history = []
     get_more = True
 
@@ -165,18 +164,19 @@ def getUserDict(token):
     users = {}
 
     payload = {"token": token}
-    rawusers = getRequest(user_info_url, payload)['members']
+    rawusers = getRequest(user_info_url, payload)["members"]
 
     for user in rawusers:
         # Parse users and strip out most of the data
         # if no name set, reuse username
-        realname = user['profile']['real_name']
+        realname = user["profile"]["real_name"]
         if len(realname) == 0:
-            realname = user['name']
+            realname = user["name"]
 
-        users[user['id']] = {'name': user['name'],
-                             'real_name': realname,
-                            }
+        users[user["id"]] = {
+            "name": user["name"],
+            "real_name": realname,
+        }
 
     return users
 
@@ -212,12 +212,13 @@ def loadUsersFromFile(dest):
     if not os.path.exists(userfile):
         raise IOError("User file does not exist: '%s'" % userfile)
 
-    with open(userfile, 'r') as f:
+    with open(userfile, "r") as f:
         users = f.read()
 
     users = eval(users)
 
     return users
+
 
 def recordHistory(dest, token):
     """Records channel history as a JSON text object in the specified destination folder"""
@@ -269,10 +270,12 @@ def loadPaths(path=DEFAULT_PATH, savepath=DEFAULT_SAVE_FOLDER):
 
     return rootpath, destpath
 
+
 def loadRootPath(path=DEFAULT_PATH):
     rootpath = os.path.abspath(os.path.expanduser(path))
 
     return rootpath
+
 
 def loadToken(rootpath):
     """Loads the user slack token in the expected path.
@@ -283,7 +286,7 @@ def loadToken(rootpath):
         print("Generate Slack API token at: https://api.slack.com/web")
         return None
     else:
-        with open(tokenpath, 'r') as f:
+        with open(tokenpath, "r") as f:
             user_token = f.read()
 
     return user_token
@@ -305,15 +308,20 @@ def loadToken(rootpath):
 #      (Input flag for real name vs user name)
 ###########################################################
 
+
 def loadHistoryFile(filename):
     """Loads a specified saved history file and returns as a python list"""
     if not os.path.exists(filename):
         return []
     if os.path.isdir(filename):
-        raise IOError("loadHistoryFile: Specified file is actually a directory '{}'".format(filename))
+        raise IOError(
+            "loadHistoryFile: Specified file is actually a directory '{}'".format(
+                filename
+            )
+        )
 
     # Load history file
-    with open(filename, 'r') as f:
+    with open(filename, "r") as f:
         strhist = f.read()
 
     # Turn saved python object string back into a list
@@ -334,16 +342,16 @@ def formatHistoryList(hist, users):
     # Parse through history to perform formatting/updates
     for entry in hist:
         # Turn timestamps into floats
-        entry['ts'] = float(entry['ts'])
+        entry["ts"] = float(entry["ts"])
         # If entry has the key 'user', look up and add the name
-        if entry.has_key('user'):
-            entry['name'] = lookupUserID(entry['user'], users)
+        if entry.has_key("user"):
+            entry["name"] = lookupUserID(entry["user"], users)
         # Parse through reactions and add user names
-        if entry.has_key('reactions'):
-            for reaction in entry['reactions']:
-                reaction['names'] = []
-                for user in reaction['users']:
-                    reaction['names'].append(lookupUserID(user, users))
+        if entry.has_key("reactions"):
+            for reaction in entry["reactions"]:
+                reaction["names"] = []
+                for user in reaction["users"]:
+                    reaction["names"].append(lookupUserID(user, users))
 
     return hist
 
@@ -352,8 +360,8 @@ def getHistoryTimeSpan(historylist):
     """History will be in order (oldest to/from newest).
     This method finds the first and last timestamps.
     Returns tstart, tend"""
-    t0 = float(historylist[0]['ts'])
-    tn = float(historylist[-1]['ts'])
+    t0 = float(historylist[0]["ts"])
+    tn = float(historylist[-1]["ts"])
 
     return min(t0, tn), max(t0, tn)
 
@@ -362,13 +370,14 @@ def getHistoryTimes(historylist):
     """Returns a list of all time stamps contained in the
     history list.
     """
-    times = [entry['ts'] for entry in historylist]
+    times = [entry["ts"] for entry in historylist]
     # Should be sorted already but make sure
     times.sort()
 
     return times
 
-def saveFile(filename, content, writemode='w'):
+
+def saveFile(filename, content, writemode="w"):
     """Saves specified contents to filename.
     Optional parameter writemode (default 'w')"""
     with open(filename, writemode) as f:
@@ -377,11 +386,9 @@ def saveFile(filename, content, writemode='w'):
     return True
 
 
-def parseChannelHistoryFiles(chdir,
-                             users,
-                             save_overall_history=True,
-                             force_refresh=True,
-                             ignore_subdirs=True):
+def parseChannelHistoryFiles(
+    chdir, users, save_overall_history=True, force_refresh=True, ignore_subdirs=True
+):
     """Parses all files inside a specified directory and builds the
     stitched history file. Parses through each file to prevent duplicate
     entries from history files that overlap, as well as adding user names
@@ -429,7 +436,9 @@ def parseChannelHistoryFiles(chdir,
                 print("Ignoring subdirectory {}".format(hfile))
                 continue
             else:
-                raise NotImplementedError("Parsing subdirectories is currently NOT IMPLEMENTED")
+                raise NotImplementedError(
+                    "Parsing subdirectories is currently NOT IMPLEMENTED"
+                )
 
         htmp = loadHistoryFile(hfn)
 
@@ -448,13 +457,13 @@ def parseChannelHistoryFiles(chdir,
         histdict.update(tmpdict)
 
     # Turn history dict back into a list
-    overall_history = [histdict[key]
-                       for key in sorted(histdict)]
+    overall_history = [histdict[key] for key in sorted(histdict)]
 
     # Save the concatenated file if not empty
     if save_overall_history and len(histdict) > 0:
-        saveFile(os.path.join(chdir, OVERALL_HISTORY_FILENAME),
-                 pformat(overall_history))
+        saveFile(
+            os.path.join(chdir, OVERALL_HISTORY_FILENAME), pformat(overall_history)
+        )
 
     return overall_history
 
@@ -465,16 +474,20 @@ def stitchHistory(dest):
     specified destination path and outputs a stitched history file
     in each subdirectory."""
     # Get the list of channel folders
-    destlist = [os.path.join(dest,entry)
-                for entry in os.listdir(dest)
-                if os.path.isdir(os.path.join(dest,entry))]
+    destlist = [
+        os.path.join(dest, entry)
+        for entry in os.listdir(dest)
+        if os.path.isdir(os.path.join(dest, entry))
+    ]
     print("Retrieved {:d} channels".format(len(destlist)))
 
     users = loadUsersFromFile(dest)
 
     for chdir in destlist:
         print("Stitching channel {}".format(chdir))
-        parseChannelHistoryFiles(chdir, users, save_overall_history = True, force_refresh = True)
+        parseChannelHistoryFiles(
+            chdir, users, save_overall_history=True, force_refresh=True
+        )
 
     # Ta da!
     print("History stitching complete!")
@@ -519,28 +532,27 @@ def makeExcerpt(channel, dest, token, tstart=0, tstop=-1, outfile=EXCERPT_FILENA
     # Find index for tstart and tstop
     kk = 0
     if tstart != 0:
-        while chhist[kk]['ts'] < tstart:
+        while chhist[kk]["ts"] < tstart:
             kk += 1
 
     if tstop == -1:
         jj = len(chhist) - 1
     else:
         jj = kk
-        while chhist[jj]['ts'] < tstop:
+        while chhist[jj]["ts"] < tstop:
             jj += 1
 
     print("Found indices: {} -> {}".format(kk, jj))
 
     # Extract info
     output = []
-    for idx in range(kk, jj+1):
+    for idx in range(kk, jj + 1):
         # TODO: Select between display name and other name field?
-        strip_dict = {'name': chhist[idx]['name'], 'text': chhist[idx]['text']}
+        strip_dict = {"name": chhist[idx]["name"], "text": chhist[idx]["text"]}
         output.append(strip_dict)
 
     # Make readable
-    outstr = "\n".join(["{}: {}".format(m['name'], m['text'])
-                        for m in output])
+    outstr = "\n".join(["{}: {}".format(m["name"], m["text"]) for m in output])
     # Turn channel IDs into channel names
     for chid in channels:
         outstr = outstr.replace(chid, channels[chid])
@@ -550,7 +562,7 @@ def makeExcerpt(channel, dest, token, tstart=0, tstop=-1, outfile=EXCERPT_FILENA
     # Remove escape chars and lt, gt, apostrophes, etc.
     # Write to output file
     outfname = os.path.join(dest, chname, outfile)
-    with open(outfname, 'w') as f:
+    with open(outfname, "w") as f:
         f.write(outstr)
     print("Created excerpt file at '{}'".format(outfname))
 
@@ -572,24 +584,50 @@ def makeExcerpt(channel, dest, token, tstart=0, tstop=-1, outfile=EXCERPT_FILENA
 ###########################################################
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import argparse
-    parser = argparse.ArgumentParser(description='Records and manages Slack history.')
-    parser.add_argument('-t', '--token', metavar='TOKEN', type=str,
-                        dest='user_token',
-                        help='Specifies a user token to use, overrides the saved token in root path')
-    parser.add_argument('-hist', '--history-only', action='store_true',
-                        dest='historyonly',
-                        help='Perform history stitching only, no message retrieval')
-    parser.add_argument('-arch', '--archive-only', action='store_true',
-                        dest='archiveonly',
-                        help='Perform message retrieval/archiving only, skip history stitching')
-    parser.add_argument('-r', '--root-path', metavar='ROOTPATH', type=str,
-                        dest='inputroot', default=DEFAULT_PATH,
-                        help='Specifies root path for non-specified token and save folder (default: "$USER/" or "~")')
-    parser.add_argument('-d', '--dest-name', metavar="SAVEFOLDER", type=str,
-                        dest='inputdest', default=DEFAULT_SAVE_FOLDER,
-                        help='Specifies save folder name inside root folder (default: "SavedHistory")')
+
+    parser = argparse.ArgumentParser(description="Records and manages Slack history.")
+    parser.add_argument(
+        "-t",
+        "--token",
+        metavar="TOKEN",
+        type=str,
+        dest="user_token",
+        help="Specifies a user token to use, overrides the saved token in root path",
+    )
+    parser.add_argument(
+        "-hist",
+        "--history-only",
+        action="store_true",
+        dest="historyonly",
+        help="Perform history stitching only, no message retrieval",
+    )
+    parser.add_argument(
+        "-arch",
+        "--archive-only",
+        action="store_true",
+        dest="archiveonly",
+        help="Perform message retrieval/archiving only, skip history stitching",
+    )
+    parser.add_argument(
+        "-r",
+        "--root-path",
+        metavar="ROOTPATH",
+        type=str,
+        dest="inputroot",
+        default=DEFAULT_PATH,
+        help='Specifies root path for non-specified token and save folder (default: "$USER/" or "~")',
+    )
+    parser.add_argument(
+        "-d",
+        "--dest-name",
+        metavar="SAVEFOLDER",
+        type=str,
+        dest="inputdest",
+        default=DEFAULT_SAVE_FOLDER,
+        help='Specifies save folder name inside root folder (default: "SavedHistory")',
+    )
 
     args = parser.parse_args()
     # print("Token '{}'".format(args.user_token))

@@ -23,12 +23,14 @@ LETTER = "W"
 BASE_CATALOG = "http://www.collectingsnapon.com/catalogs/catalogs-large/{0}_Industrial_Catalog_{1}/{0}-Industrial-Catalog-{1}-"
 BASE_PAGE = "p{:02d}.jpg"
 BASE_URL = BASE_CATALOG.format(YEAR, LETTER) + BASE_PAGE
-HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
+}
 
 
 # Set up logging
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(levelname)s - %(message)s")
 
 
 def getPage(pageid, baseurl=BASE_URL, dest=DEFAULT_OUTPUT_PATH):
@@ -48,49 +50,46 @@ def getPage(pageid, baseurl=BASE_URL, dest=DEFAULT_OUTPUT_PATH):
         return r.status_code
 
     logging.debug("Saving filename: '{}'".format(filename))
-    with open(destfile, 'wb') as f:
+    with open(destfile, "wb") as f:
         f.write(r.content)
 
 
 if __name__ == "__main__":
     import argparse
+
     parser = argparse.ArgumentParser(
-        description='Downloads a series of images or files by ID and a base url'
+        description="Downloads a series of images or files by ID and a base url"
+    )
+
+    parser.add_argument(type=int, dest="startid", help="ID number to start from")
+
+    parser.add_argument(
+        type=int, dest="stopid", help="ID number to stop at (inclusive)"
     )
 
     parser.add_argument(
-        type=int,
-        dest='startid',
-        help='ID number to start from'
-    )
-
-    parser.add_argument(
-        type=int,
-        dest='stopid',
-        help='ID number to stop at (inclusive)'
-    )
-
-    parser.add_argument(
-        '-year',
+        "-year",
         default=YEAR,
         type=str,
-        dest='year',
-        help='Catalog year, e.g. {}'.format(YEAR))
+        dest="year",
+        help="Catalog year, e.g. {}".format(YEAR),
+    )
 
     parser.add_argument(
-        '-letter',
+        "-letter",
         default=LETTER,
         type=str,
-        dest='letter',
-        help='Catalog letter, e.g. {}'.format(LETTER))
+        dest="letter",
+        help="Catalog letter, e.g. {}".format(LETTER),
+    )
 
     parser.add_argument(
-        '-path',
-        '--output-path',
+        "-path",
+        "--output-path",
         default=DEFAULT_OUTPUT_PATH,
         type=str,
-        dest='outputpath',
-        help='Output path (Default: current directory)'
+        dest="outputpath",
+        help="Output path (Default: current directory)",
     )
 
     args = parser.parse_args()
@@ -126,4 +125,5 @@ if __name__ == "__main__":
 
     if len(bad_ids) > 0:
         from pprint import pformat
+
         logging.warn("IDs and failure codes:\n{}".format(pformat(bad_ids)))

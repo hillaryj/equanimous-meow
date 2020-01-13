@@ -29,7 +29,9 @@ INDEX_KEY = "/bookindex"
 TITLE_KEY = "/getpage"
 
 # User agent
-HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
+}
 SLEEP_TIME = 0.1
 
 # Debug settings
@@ -41,10 +43,10 @@ DEBUG_MANUALS_FILE = "testoutput_manuals.txt"
 
 # Set up logging
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=LOG_LEVEL, format='%(levelname)s - %(message)s')
+logging.basicConfig(level=LOG_LEVEL, format="%(levelname)s - %(message)s")
 
 
-def saveFile(filename, content, writemode='w'):
+def saveFile(filename, content, writemode="w"):
     """Saves specified string contents to a file with the specified filename.
     Optional parameter writemode (default 'w')"""
     with open(filename, writemode) as f:
@@ -70,7 +72,7 @@ def loadPageFromFile(filename):
         raise IOError("File does not exist: '{}'".format(filename))
 
     with open(filename) as fp:
-        soup = BeautifulSoup(fp, 'html.parser')
+        soup = BeautifulSoup(fp, "html.parser")
 
     check = soup.title.get_text().strip()
     logging.info("Loaded soup with title '{}'".format(check))
@@ -88,7 +90,7 @@ def loadPageFromURL(url):
         logging.warn("Browse page not OK, returned code: {}".format(r.status_code))
         return
 
-    return BeautifulSoup(r.content, 'html.parser')
+    return BeautifulSoup(r.content, "html.parser")
 
 
 def extractManualList(soup):
@@ -98,43 +100,38 @@ def extractManualList(soup):
     manuals = {}
 
     # Find all <table> attributes - the manuals are individual <tr>
-    for row in soup.find_all('tr'):
+    for row in soup.find_all("tr"):
 
         manual = {}
 
         # Get title, book id, and start page id from links
-        for link in row.find_all('a'):
+        for link in row.find_all("a"):
             link_text = link.text.strip()
-            link_href = link.get('href')
+            link_href = link.get("href")
 
-            logging.debug("Found link: '{}': '{}'".format(
-                link_text,
-                link_href)
-            )
+            logging.debug("Found link: '{}': '{}'".format(link_text, link_href))
 
             if link_href.startswith(INDEX_KEY):
-                manual['bookid'] = int(link_href.split("=")[-1])
+                manual["bookid"] = int(link_href.split("=")[-1])
             elif link_href.startswith(TITLE_KEY):
-                manual['title'] = link_text
+                manual["title"] = link_text
                 try:
-                    manual['startid'] = int(link_href.split("=")[-1])
+                    manual["startid"] = int(link_href.split("=")[-1])
                 except ValueError as e:
                     # This record is malformed so don't record it
-                    logging.warn("'{}': No page id specified".format(
-                        link_text)
-                    )
-                    manual['startid'] = -1
+                    logging.warn("'{}': No page id specified".format(link_text))
+                    manual["startid"] = -1
 
         # Get Type, Effective Date, Publisher, Covers, and # Pages from text
         # logging.debug('Row text: {}'.format(repr(row.get_text())))
-        info = list(row.find_all('td')[1].stripped_strings)
-        logging.debug('Second cell: {}'.format(info))
+        info = list(row.find_all("td")[1].stripped_strings)
+        logging.debug("Second cell: {}".format(info))
 
         # Extract label positions
-        index_effective_date = info.index(u'Effective:') + 1
-        index_publisher = info.index(u'Published By:') + 1
-        index_covers = info.index(u'Covers:') + 1
-        index_page_total = info.index(u'Pages:') + 1
+        index_effective_date = info.index(u"Effective:") + 1
+        index_publisher = info.index(u"Published By:") + 1
+        index_covers = info.index(u"Covers:") + 1
+        index_page_total = info.index(u"Pages:") + 1
         index_max = len(info)
 
         # Extract data from label positions
@@ -144,72 +141,73 @@ def extractManualList(soup):
         # Effective date (Month YYYY)
         if index_effective_date > 0:
             if index_publisher - index_effective_date > 1:
-                logging.debug("Effective date [{}]: {}".format(
-                    index_effective_date,
-                    info[index_effective_date])
+                logging.debug(
+                    "Effective date [{}]: {}".format(
+                        index_effective_date, info[index_effective_date]
+                    )
                 )
-                manual['date'] = info[index_effective_date]
+                manual["date"] = info[index_effective_date]
             else:
                 logging.debug("Effective date [{}]: N/A".format(index_effective_date))
-                manual['date'] = ''
+                manual["date"] = ""
         else:
             logging.warn("Effective date label NOT FOUND in '{}'".format(manual[title]))
 
         # Publisher
         if index_publisher > 0:
             if index_covers - index_publisher > 1:
-                logging.debug("Publisher [{}]: {}".format(
-                    index_publisher,
-                    info[index_publisher])
+                logging.debug(
+                    "Publisher [{}]: {}".format(index_publisher, info[index_publisher])
                 )
-                manual['publisher'] = info[index_publisher]
+                manual["publisher"] = info[index_publisher]
             else:
                 logging.debug("Publisher [{}]: N/A".format(index_covers))
-                manual['publisher'] = ''
+                manual["publisher"] = ""
         else:
             logging.warn("Publisher label NOT FOUND in '{}'".format(manual[title]))
 
         # What models the document covers, if specified
         if index_covers > 0:
             if index_page_total - index_covers > 1:
-                logging.debug("Models covered [{}]: {}".format(
-                    index_covers,
-                    info[index_covers])
+                logging.debug(
+                    "Models covered [{}]: {}".format(index_covers, info[index_covers])
                 )
                 # Check for duplicate dates and insert dashes for date ranges
 
-                manual['covers'] = fixCoveredModelText(info[index_covers])
+                manual["covers"] = fixCoveredModelText(info[index_covers])
             else:
                 logging.debug("Models covered [{}]: N/A".format(index_covers))
-                manual['covers'] = ''
+                manual["covers"] = ""
         else:
             logging.warn("Covered models label NOT FOUND in '{}'".format(manual[title]))
 
         # Total number of pages in the manual
         if index_page_total > 0:
             if index_max - index_page_total > 0:
-                logging.debug("Total pages [{}]: {}".format(
-                    index_page_total,
-                    info[index_page_total])
+                logging.debug(
+                    "Total pages [{}]: {}".format(
+                        index_page_total, info[index_page_total]
+                    )
                 )
-                manual['pages'] = int(info[index_page_total])
+                manual["pages"] = int(info[index_page_total])
             else:
                 logging.debug("Total pages [{}]: N/A".format(index_covers))
-                manual['pages'] = 0
+                manual["pages"] = 0
         else:
             logging.warn("Page total label NOT FOUND in '{}'".format(manual[title]))
 
         # Determine the output folder name for the manual
-        manual['dest'] = generateFolderName(manual)
+        manual["dest"] = generateFolderName(manual)
 
         # Add this record, but throw an error if there's already one there
         logging.debug("Parsed record:\n{}".format(manual))
-        idnum = manual['bookid']
+        idnum = manual["bookid"]
         if idnum in manuals:
-            raise ValueError("Duplicate id found for titles:\n'{}'\n'{}'".format(
-                    manuals[idnum]['title'],
-                    manual['title'])
+            raise ValueError(
+                "Duplicate id found for titles:\n'{}'\n'{}'".format(
+                    manuals[idnum]["title"], manual["title"]
                 )
+            )
         manuals[idnum] = manual
 
     return manuals
@@ -246,7 +244,7 @@ def fixCoveredModelText(raw):
         idx = model.find(" ")
         if idx > 0:
             mfr = model[:idx]
-            make = model[idx+1:]
+            make = model[idx + 1 :]
 
             if mfr in makes:
                 makes[mfr].append(make)
@@ -257,7 +255,6 @@ def fixCoveredModelText(raw):
     text = ", ".join(["{} {}".format(mfr, ", ".join(makes[mfr])) for mfr in makes])
 
     return "{} {}".format(date, text)
-
 
 
 def generateFolderName(entry):
@@ -277,10 +274,10 @@ def generateFolderName(entry):
     Chevrolet Motor Division - Master Parts List Six Cylinder Models - August 1941
     """
 
-    if entry['covers']:
-        folder = " - ".join([entry['covers'], entry['title'], entry['date']])
+    if entry["covers"]:
+        folder = " - ".join([entry["covers"], entry["title"], entry["date"]])
     else:
-        folder = " - ".join([entry['publisher'], entry['title'], entry['date']])
+        folder = " - ".join([entry["publisher"], entry["title"], entry["date"]])
 
     logging.debug("Output folder name: '{}'".format(folder))
 
@@ -306,12 +303,14 @@ def getManual(entry, url=PARTSWIKI_DEFAULT_QUERY, dest=DEFAULT_OUTPUT_PATH):
     bad_ids = []
     successful = 0
 
-    logging.info("Downloading manual ({}): '{}'".format(entry['bookid'], entry['title']))
+    logging.info(
+        "Downloading manual ({}): '{}'".format(entry["bookid"], entry["title"])
+    )
 
-    start = entry['startid']
-    total = entry['pages']
+    start = entry["startid"]
+    total = entry["pages"]
 
-    dest = os.path.join(outputpath, entry['dest'])
+    dest = os.path.join(outputpath, entry["dest"])
     if not os.path.exists(dest):
         os.mkdir(dest)
         logging.info("Created output directory '{}'".format(dest))
@@ -345,55 +344,60 @@ def getPageImg(pageid, baseurl=PARTSWIKI_DEFAULT_QUERY, dest=DEFAULT_OUTPUT_PATH
 
     if r.status_code == requests.codes.ok:
         # Get image name
-        logging.debug("Determining attachment name from {}".format(r.headers['content-disposition']))
-        filename = r.headers['content-disposition'].replace('attachment; filename=','')
+        logging.debug(
+            "Determining attachment name from {}".format(
+                r.headers["content-disposition"]
+            )
+        )
+        filename = r.headers["content-disposition"].replace("attachment; filename=", "")
         logging.debug("Filename: '{}'".format(filename))
 
         # Save image
         destfile = os.path.join(dest, filename)
         logging.debug("ID {}: Writing to '{}'".format(pageid, filename))
-        with open(destfile, 'wb') as f:
+        with open(destfile, "wb") as f:
             f.write(r.content)
 
     else:
-        logging.warn("ID {}: status not ok - code {} at {}".format(pageid,
-            r.status_code,
-            pageurl)
+        logging.warn(
+            "ID {}: status not ok - code {} at {}".format(
+                pageid, r.status_code, pageurl
+            )
         )
         return r.status_code
 
 
 if __name__ == "__main__":
     import argparse
+
     parser = argparse.ArgumentParser(
-        description='Downloads images or files from a partswiki into folders for each manual'
+        description="Downloads images or files from a partswiki into folders for each manual"
     )
 
     parser.add_argument(
-        '-u',
-        '--url',
+        "-u",
+        "--url",
         default=PARTSWIKI_BASE_URL,
         type=str,
-        dest='baseurl',
-        help='Site URL ' +
-             '(Default: "{}")'.format(PARTSWIKI_BASE_URL)
+        dest="baseurl",
+        help="Site URL " + '(Default: "{}")'.format(PARTSWIKI_BASE_URL),
     )
 
     parser.add_argument(
-        '-o',
-        '--output',
+        "-o",
+        "--output",
         default=DEFAULT_OUTPUT_PATH,
         type=str,
-        dest='outputpath',
-        help='Output path (Default: "{}"")'.format(DEFAULT_OUTPUT_PATH)
+        dest="outputpath",
+        help='Output path (Default: "{}"")'.format(DEFAULT_OUTPUT_PATH),
     )
 
     parser.add_argument(
-        '-s',
-        '--start-with',
+        "-s",
+        "--start-with",
         type=int,
-        dest='startwithbookid',
-        help='Indicate a bookid to start with'
+        dest="startwithbookid",
+        help="Indicate a bookid to start with",
     )
 
     args = parser.parse_args()
@@ -416,8 +420,10 @@ if __name__ == "__main__":
     if cached:
         filename = os.path.join(outputpath, DEBUG_SOUP_FILE)
         if not os.path.exists(filename):
-            logging.error("Specified soup cache '{}' ".format(filename) +
-                "DOES NOT EXIST! Reverting to load from URL.")
+            logging.error(
+                "Specified soup cache '{}' ".format(filename)
+                + "DOES NOT EXIST! Reverting to load from URL."
+            )
             cached = False
         else:
             soup_source = filename
@@ -444,6 +450,7 @@ if __name__ == "__main__":
         testoutput = os.path.join(outputpath, "testoutput_manuals.txt")
         logging.debug("Saving manual contents to {}".format(testoutput))
         from pprint import pformat
+
         saveFile(testoutput, pformat(manuals))
 
     # Download each manual
@@ -454,12 +461,13 @@ if __name__ == "__main__":
             continue
 
         num_success, failures = getManual(manuals[kk], big_img_query, outputpath)
-        bad_ids[manuals[kk]['bookid']] = failures
+        bad_ids[manuals[kk]["bookid"]] = failures
 
     logging.info("Downloads complete! Saved in {}".format(outputpath))
 
     if len(bad_ids) > 0:
         from pprint import pformat
+
         logging.warn("Failed to download IDs:\n{}".format(bad_ids))
 
     logging.info("Processing complete! Exiting...")
