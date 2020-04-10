@@ -81,8 +81,17 @@ def loadPageFromFile(filename):
 
 
 def loadPageFromURL(url):
-    """Loads a page URL and returns the BeautifulSoup object if
-    request is successful"""
+    """Load a page from URL into a BeautifulSoup object.
+
+    Returns a BeautifulSoup object if page url request is successful.
+
+    Arguments:
+        url {string} -- URL of page to load
+
+    Returns:
+        BeautifulSoup -- page content, parsed for HTML
+
+    """
     logging.info("Retrieving '{}'".format(url))
     r = requests.get(url, headers=HEADERS)
 
@@ -94,8 +103,8 @@ def loadPageFromURL(url):
 
 
 def extractManualList(soup):
-    """Takes a BeautifulSoup page object and extracts information from
-    table of manuals"""
+    """Take a BeautifulSoup page object and extracts information from
+    table of manuals."""
 
     manuals = {}
 
